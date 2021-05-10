@@ -1,5 +1,4 @@
-# KakaoExpenseClaim.ClaimManagement
-Expense Claim Management WebApplication
+# Expense Claim Management WebApplication
 
 Clean Architecture - ASP.NET Core 5.0 (WebApi & Blazor)
 
