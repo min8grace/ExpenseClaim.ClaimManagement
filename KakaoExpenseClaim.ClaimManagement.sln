@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KakaoExpenseClaim.ClaimMana
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KakaoExpenseClaim.ClaimManagement.Infrastructure", "KakaoExpenseClaim.ClaimManagement.Infrastructure\KakaoExpenseClaim.ClaimManagement.Infrastructure.csproj", "{8F573954-E652-4D55-A2F5-1AE42155B107}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KakaoExpenseClaim.ClaimManagement.Api", "KakaoExpenseClaim.ClaimManagement.Api\KakaoExpenseClaim.ClaimManagement.Api.csproj", "{59979027-1B2F-4BDB-9ACD-DC11260DE20A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{8F573954-E652-4D55-A2F5-1AE42155B107}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F573954-E652-4D55-A2F5-1AE42155B107}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F573954-E652-4D55-A2F5-1AE42155B107}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59979027-1B2F-4BDB-9ACD-DC11260DE20A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59979027-1B2F-4BDB-9ACD-DC11260DE20A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59979027-1B2F-4BDB-9ACD-DC11260DE20A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59979027-1B2F-4BDB-9ACD-DC11260DE20A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{DE4B7925-7BA2-4994-906F-2CBDCBB9A167} = {138321ED-0883-423A-A3C8-D6A01083DDD2}
 		{E94B4435-28F4-47B0-9DF6-40EB34129465} = {DE19BB35-80F3-49EA-A9CF-BC6B07021113}
 		{8F573954-E652-4D55-A2F5-1AE42155B107} = {DE19BB35-80F3-49EA-A9CF-BC6B07021113}
+		{59979027-1B2F-4BDB-9ACD-DC11260DE20A} = {3E8F932E-0106-41D5-B989-D8DBCF28FA46}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B3B9518-A9D4-4D96-99D4-FA15E19E9E4E}
