@@ -11,26 +11,44 @@ using System.Threading.Tasks;
 
 namespace KakaoExpenseClaim.ClaimManagement.Application.Features.Currencies.Commands.CreateItem
 {
-    public class CreateItemCommandHandler : IRequestHandler<CreateItemCommand, int>
+    public class CreateItemCommandHandler : IRequestHandler<CreateItemCommand, CreateItemCommandResponse>
     {
 
-        private readonly IItemRepository _ItemRepository;
+        private readonly IItemRepository _itemRepository;
         private readonly IMapper _mapper;
 
 
-        public CreateItemCommandHandler(IMapper mapper, IItemRepository ItemRepository)
+        public CreateItemCommandHandler(IMapper mapper, IItemRepository itemRepository)
         {
             _mapper = mapper;
-            _ItemRepository = ItemRepository;
+            _itemRepository = itemRepository;
         }
 
-        public async Task<int> Handle(CreateItemCommand request, CancellationToken cancellationToken)
+        public async Task<CreateItemCommandResponse> Handle(CreateItemCommand request, CancellationToken cancellationToken)
         {
-            var @Item = _mapper.Map<Item>(request);
+            var createItemCommandResponse = new CreateItemCommandResponse();
 
-            @Item = await _ItemRepository.AddAsync(@Item);
+            var validator = new CreateItemCommandValidator();
+            var validationResult = await validator.ValidateAsync(request);
 
-            return @Item.ItemId;
+
+            if (validationResult.Errors.Count > 0)
+            {
+                createItemCommandResponse.Success = false;
+                createItemCommandResponse.ValidationErrors = new List<string>();
+                foreach (var error in validationResult.Errors)
+                {
+                    createItemCommandResponse.ValidationErrors.Add(error.ErrorMessage);
+                }
+            }
+            if (createItemCommandResponse.Success)
+            {
+                var item = _mapper.Map<Item>(request);
+                item = await _itemRepository.AddAsync(item);
+                createItemCommandResponse.Item = _mapper.Map<CreateItemDto>(item);
+            }
+
+            return createItemCommandResponse;
         }
     }
 }

@@ -6,5 +6,6 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Contracts.Persistence
 {
     public interface ICategoryRepository : IAsyncRepository<Category>
     {
+        Task<bool> IsEventNameAndCodeUnique(string name, string code);
     }
 }

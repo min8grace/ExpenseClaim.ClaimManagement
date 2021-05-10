@@ -9,5 +9,6 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Contracts.Persistence
 {
     public interface ICurrencyRepository : IAsyncRepository<Currency>
     {
+        Task<bool> IsEventNameAndSymbolUnique(string name, string symbol);
     }
 }

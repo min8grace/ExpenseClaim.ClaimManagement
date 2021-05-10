@@ -11,7 +11,7 @@ using MediatR;
 
 namespace KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Commands.CreateExpenseClaim
 {
-    public class CreateExpenseClaimCommandHandler : IRequestHandler<CreateExpenseClaimCommand, int>
+    public class CreateExpenseClaimCommandHandler : IRequestHandler<CreateExpenseClaimCommand, CreateExpenseClaimCommandResponse>
     {
         private readonly IExpenseClaimRepository _expenseClaimRepository;
         private readonly IMapper _mapper;
@@ -22,13 +22,31 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.C
             _expenseClaimRepository = expenseClaimRepository;
         }
 
-        public async Task<int> Handle(CreateExpenseClaimCommand request, CancellationToken cancellationToken)
+        public async Task<CreateExpenseClaimCommandResponse> Handle(CreateExpenseClaimCommand request, CancellationToken cancellationToken)
         {
-            var @expenseClaim = _mapper.Map<ExpenseClaim>(request);
+            var createExpenseClaimCommandResponse = new CreateExpenseClaimCommandResponse();
 
-            @expenseClaim = await _expenseClaimRepository.AddAsync(@expenseClaim);
+            var validator = new CreateExpenseClaimCommandValidator();
+            var validationResult = await validator.ValidateAsync(request);
 
-            return @expenseClaim.ExpenseClaimId;
+
+            if (validationResult.Errors.Count > 0)
+            {
+                createExpenseClaimCommandResponse.Success = false;
+                createExpenseClaimCommandResponse.ValidationErrors = new List<string>();
+                foreach (var error in validationResult.Errors)
+                {
+                    createExpenseClaimCommandResponse.ValidationErrors.Add(error.ErrorMessage);
+                }
+            }
+            if (createExpenseClaimCommandResponse.Success)
+            {
+                var expenseClaim = _mapper.Map<ExpenseClaim>(request);
+                expenseClaim = await _expenseClaimRepository.AddAsync(expenseClaim);
+                createExpenseClaimCommandResponse.ExpenseClaim = _mapper.Map<CreateExpenseClaimDto>(expenseClaim);
+            }
+
+            return createExpenseClaimCommandResponse;
         }
     }
 }
