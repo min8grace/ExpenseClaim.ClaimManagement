@@ -28,6 +28,7 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Features.Currencies.Comm
            
             _mapper.Map(request, ItemToUpdate, typeof(UpdateItemCommand), typeof(Item));
 
+            
             await _ItemRepository.UpdateAsync(ItemToUpdate);
 
             return Unit.Value;

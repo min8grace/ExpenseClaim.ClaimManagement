@@ -24,6 +24,7 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Features.Items.Queries.G
         {
             var allEvents = (await _eventRepository.ListAllAsync()).OrderBy(x => x.Date);
             return _mapper.Map<List<ItemListVm>>(allEvents);
+
         }
     }
 }

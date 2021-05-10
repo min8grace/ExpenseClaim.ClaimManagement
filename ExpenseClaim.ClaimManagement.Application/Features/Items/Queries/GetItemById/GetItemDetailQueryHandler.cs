@@ -27,10 +27,7 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Features.Items.Queries.G
 
             var expenseClaim = await _expenseClaimRepository.GetByIdAsync(@item.ExpenseClaimId);
 
-            //if (expenseClaim == null)
-            //{
-            //    throw new NotFoundException(nameof(Item), request.Id);
-            //}
+
             itemDetailDto.ExpenseClaim = _mapper.Map<ExpenseClaimDto>(expenseClaim);
 
             return itemDetailDto;

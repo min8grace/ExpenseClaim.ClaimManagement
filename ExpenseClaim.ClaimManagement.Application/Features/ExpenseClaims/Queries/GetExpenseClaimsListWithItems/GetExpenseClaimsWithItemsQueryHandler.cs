@@ -22,6 +22,7 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Q
         {
             var list = await _expenseClaimRepository.GetExpenseClaimsWithItems(request.IncludeHistory);
             return _mapper.Map<List<ExpenseClaimItemListVm>>(list);
+
         }
     }
 }

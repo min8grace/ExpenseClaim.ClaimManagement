@@ -30,6 +30,6 @@ namespace KakaoExpenseClaim.ClaimManagement.Domain.Entities
         public DateTime ProcessedDate { get; set; }
         public string FinanceComments { get; set; }
 
-        public virtual ICollection<Item> LineItems { get; set; }
+        public virtual ICollection<Item> Items { get; set; }
     }
 }
