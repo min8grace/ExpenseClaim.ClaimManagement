@@ -21,7 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KakaoExpenseClaim.ClaimMana
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KakaoExpenseClaim.ClaimManagement.Infrastructure", "KakaoExpenseClaim.ClaimManagement.Infrastructure\KakaoExpenseClaim.ClaimManagement.Infrastructure.csproj", "{8F573954-E652-4D55-A2F5-1AE42155B107}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KakaoExpenseClaim.ClaimManagement.Api", "KakaoExpenseClaim.ClaimManagement.Api\KakaoExpenseClaim.ClaimManagement.Api.csproj", "{59979027-1B2F-4BDB-9ACD-DC11260DE20A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KakaoExpenseClaim.ClaimManagement.Api", "KakaoExpenseClaim.ClaimManagement.Api\KakaoExpenseClaim.ClaimManagement.Api.csproj", "{59979027-1B2F-4BDB-9ACD-DC11260DE20A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{44F77FC4-736F-46E8-B620-6ECF29B1CCC9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KakaoExpenseClaim.ClaimManagement.App", "KakaoExpenseClaim.ClaimManagement.App\KakaoExpenseClaim.ClaimManagement.App.csproj", "{898745FB-3F59-4644-B348-9CEC2B204757}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +53,10 @@ Global
 		{59979027-1B2F-4BDB-9ACD-DC11260DE20A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59979027-1B2F-4BDB-9ACD-DC11260DE20A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59979027-1B2F-4BDB-9ACD-DC11260DE20A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{898745FB-3F59-4644-B348-9CEC2B204757}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{898745FB-3F59-4644-B348-9CEC2B204757}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{898745FB-3F59-4644-B348-9CEC2B204757}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{898745FB-3F59-4644-B348-9CEC2B204757}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +70,8 @@ Global
 		{E94B4435-28F4-47B0-9DF6-40EB34129465} = {DE19BB35-80F3-49EA-A9CF-BC6B07021113}
 		{8F573954-E652-4D55-A2F5-1AE42155B107} = {DE19BB35-80F3-49EA-A9CF-BC6B07021113}
 		{59979027-1B2F-4BDB-9ACD-DC11260DE20A} = {3E8F932E-0106-41D5-B989-D8DBCF28FA46}
+		{44F77FC4-736F-46E8-B620-6ECF29B1CCC9} = {E6E2626A-923B-44F5-8933-C18A44486886}
+		{898745FB-3F59-4644-B348-9CEC2B204757} = {44F77FC4-736F-46E8-B620-6ECF29B1CCC9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B3B9518-A9D4-4D96-99D4-FA15E19E9E4E}
