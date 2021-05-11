@@ -1,5 +1,6 @@
 ﻿using KakaoExpenseClaim.ClaimManagement.Application.Contracts.Infrastructure;
 using KakaoExpenseClaim.ClaimManagement.Application.Models.Mail;
+using KakaoExpenseClaim.ClaimManagement.Infrastructure.FileExport;
 using KakaoExpenseClaim.ClaimManagement.Infrastructure.Mail;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +13,7 @@ namespace KakaoExpenseClaim.ClaimManagement.Infrastructure
         {
             services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
 
-
+            services.AddTransient<ICsvExporter, CsvExporter>();
             services.AddTransient<IEmailService, EmailService>();
 
             return services;

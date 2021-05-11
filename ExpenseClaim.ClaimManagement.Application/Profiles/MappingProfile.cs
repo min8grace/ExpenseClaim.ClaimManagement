@@ -11,6 +11,8 @@ using KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Comma
 using KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Commands.UpdateExpenseClaim;
 using KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Queries.GetCategoriesList;
 using KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Queries.GetCategoriesListWithEvents;
+using KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Queries.GetExpenseClaimById;
+using KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Queries.GetExpenseClaimsExport;
 using KakaoExpenseClaim.ClaimManagement.Application.Features.Items.Queries.GetItemById;
 using KakaoExpenseClaim.ClaimManagement.Application.Features.Items.Queries.GetItemsList;
 using KakaoExpenseClaim.ClaimManagement.Domain.Entities;
@@ -28,6 +30,8 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Profiles
             CreateMap<UpdateExpenseClaimCommand, ExpenseClaim>();
             CreateMap<ExpenseClaim, ExpenseClaimListVm>();
             CreateMap<ExpenseClaim, ExpenseClaimItemListVm>();
+            CreateMap<ExpenseClaimsExportDto, ExpenseClaim>();
+            CreateMap<ExpenseClaim, ExpenseClaimDetailVm>();
 
             CreateMap<CreateItemCommand, Item>();
             CreateMap<Item, CreateItemDto>();
@@ -35,7 +39,6 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Profiles
             CreateMap<Item, ItemDetailVm>();
             CreateMap<Item, ItemListVm>();
             CreateMap<ExpenseClaim, ExpenseClaimDto>();
-
 
             CreateMap<CreateCategoryCommand, Category>();
             CreateMap<UpdateCategoryCommand, Category>();

@@ -20,8 +20,4 @@
     <ProjectReference Include="..\KakaoExpenseClaim.ClaimManagement.Persistence\KakaoExpenseClaim.ClaimManagement.Persistence.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>
