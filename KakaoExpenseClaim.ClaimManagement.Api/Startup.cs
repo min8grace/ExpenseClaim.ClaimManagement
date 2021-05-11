@@ -101,13 +101,22 @@ namespace KakaoExpenseClaim.ClaimManagement.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "KakaoExpenseClaim.ClaimManagement.Api v1"));
             }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseAuthentication();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "KakaoTicket Ticket Management API");
+            });
+
+            //app.UseCustomExceptionHandler();
+
+            app.UseCors();
 
             app.UseAuthorization();
 

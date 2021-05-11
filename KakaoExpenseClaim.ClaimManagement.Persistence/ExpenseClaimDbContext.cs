@@ -12,7 +12,7 @@ namespace KakaoExpenseClaim.ClaimManagement.Persistence
 {
     public class ExpenseClaimDbContext : DbContext
     {
-        public ExpenseClaimDbContext(DbContextOptions<ExpenseClaimDbContext> options)
+        public ExpenseClaimDbContext(DbContextOptions<ExpenseClaimDbContext> options) : base(options)
         {
 
         }

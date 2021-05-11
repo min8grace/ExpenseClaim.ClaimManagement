@@ -22,9 +22,9 @@ namespace KakaoExpenseClaim.ClaimManagement.Api.Controllers
         }
 
         [Authorize]
-        [HttpGet("all", Name = "GetAllCategories")]
+        [HttpGet("all", Name = "GetAllCurrencies")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<List<CurrencyListVm>>> GetAllCategories()
+        public async Task<ActionResult<List<CurrencyListVm>>> GetAllCurrencies()
         {
             var dtos = await _mediator.Send(new GetCurrenciesListQuery());
             return Ok(dtos);
