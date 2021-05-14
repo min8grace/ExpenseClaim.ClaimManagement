@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using KakaoExpenseClaim.ClaimManagement.Application.Contracts.Persistence;
+using KakaoExpenseClaim.ClaimManagement.Application.Exceptions;
 using KakaoExpenseClaim.ClaimManagement.Domain.Entities;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,9 +21,14 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.C
 
         public async Task<Unit> Handle(DeleteExpenseClaimCommand request, CancellationToken cancellationToken)
         {
-            var eventToDelete = await _expenseClaimRepository.GetByIdAsync(request.ExpenseClaimId);
+            var expenseClaimToDelete = await _expenseClaimRepository.GetByIdAsync(request.ExpenseClaimId);
 
-            await _expenseClaimRepository.DeleteAsync(eventToDelete);
+            if (expenseClaimToDelete == null)
+            {
+                throw new NotFoundException(nameof(ExpenseClaim), request.ExpenseClaimId);
+            }
+
+            await _expenseClaimRepository.DeleteAsync(expenseClaimToDelete);
 
             return Unit.Value; //default value
         }

@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KakaoExpenseClaim.ClaimManagement.Api.Middleware;
 
 namespace KakaoExpenseClaim.ClaimManagement.Api
 {
@@ -118,7 +119,7 @@ namespace KakaoExpenseClaim.ClaimManagement.Api
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "KakaoTicket Ticket Management API");
             });
 
-            //app.UseCustomExceptionHandler();
+            app.UseCustomExceptionHandler();
 
             app.UseCors();
 

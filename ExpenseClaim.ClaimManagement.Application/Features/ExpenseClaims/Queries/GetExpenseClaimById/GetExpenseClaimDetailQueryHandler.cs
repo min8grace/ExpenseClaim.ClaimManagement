@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using KakaoExpenseClaim.ClaimManagement.Application.Contracts.Persistence;
+using KakaoExpenseClaim.ClaimManagement.Application.Exceptions;
 using KakaoExpenseClaim.ClaimManagement.Domain.Entities;
 using MediatR;
 using System.Threading;
@@ -21,6 +22,7 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Q
         public async Task<ExpenseClaimDetailVm> Handle(GetExpenseClaimDetailQuery request, CancellationToken cancellationToken)
         {
             var expenseClaim = await _expenseClaimsRepository.GetByIdAsync(request.Id);
+
             var expenseClaimDetaiDto = _mapper.Map<ExpenseClaimDetailVm>(expenseClaim);
             
             return expenseClaimDetaiDto;

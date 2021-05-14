@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using KakaoExpenseClaim.ClaimManagement.Application.Contracts.Persistence;
+using KakaoExpenseClaim.ClaimManagement.Application.Exceptions;
 using KakaoExpenseClaim.ClaimManagement.Domain.Entities;
 using MediatR;
 using System;
@@ -13,20 +14,23 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Features.Currencies.Comm
 {
     public class DeleteItemCommandHandler : IRequestHandler<DeleteItemCommand>
     {
-        private readonly IAsyncRepository<Item> _ItemRepository;
+        private readonly IAsyncRepository<Item> _itemRepository;
         private readonly IMapper _mapper;
 
-        public DeleteItemCommandHandler(IMapper mapper, IAsyncRepository<Item> ItemRepository)
+        public DeleteItemCommandHandler(IMapper mapper, IAsyncRepository<Item> itemRepository)
         {
             _mapper = mapper;
-            _ItemRepository = ItemRepository;
+            _itemRepository = itemRepository;
         }
 
         public async Task<Unit> Handle(DeleteItemCommand request, CancellationToken cancellationToken)
         {
-            var ItemToDelete = await _ItemRepository.GetByIdAsync(request.ItemId);
-
-            await _ItemRepository.DeleteAsync(ItemToDelete);
+            var itemToDelete = await _itemRepository.GetByIdAsync(request.ItemId);
+            if (itemToDelete == null)
+            {
+                throw new NotFoundException(nameof(Item), request.ItemId);
+            }
+            await _itemRepository.DeleteAsync(itemToDelete);
 
             return Unit.Value; //default value
         }

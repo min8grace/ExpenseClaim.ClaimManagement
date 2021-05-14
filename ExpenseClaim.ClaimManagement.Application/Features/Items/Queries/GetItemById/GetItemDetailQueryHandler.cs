@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using KakaoExpenseClaim.ClaimManagement.Application.Contracts.Persistence;
+using KakaoExpenseClaim.ClaimManagement.Application.Exceptions;
 using KakaoExpenseClaim.ClaimManagement.Domain.Entities;
 using MediatR;
 using System.Threading;
@@ -27,7 +28,10 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Features.Items.Queries.G
 
             var expenseClaim = await _expenseClaimRepository.GetByIdAsync(@item.ExpenseClaimId);
 
-
+            if (expenseClaim == null)
+            {
+                throw new NotFoundException(nameof(ExpenseClaim), request.Id);
+            }
             itemDetailDto.ExpenseClaim = _mapper.Map<ExpenseClaimDto>(expenseClaim);
 
             return itemDetailDto;

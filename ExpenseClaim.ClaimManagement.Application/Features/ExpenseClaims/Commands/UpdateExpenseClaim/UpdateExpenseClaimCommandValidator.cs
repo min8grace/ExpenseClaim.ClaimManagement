@@ -1,12 +1,11 @@
 ﻿using FluentValidation;
-using KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Commands.UpdateExpenseClaim;
 using System;
 
-namespace GKakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Commands.UpdateExpenseClaim
+namespace KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Commands.UpdateExpenseClaim
 {
-    public class UpdateItemCommandValidator : AbstractValidator<UpdateExpenseClaimCommand>
+    public class UpdateExpenseClaimCommandValidator : AbstractValidator<UpdateExpenseClaimCommand>
     {
-        public UpdateItemCommandValidator()
+        public UpdateExpenseClaimCommandValidator()
         {
             RuleFor(p => p.Title)
                 .NotEmpty().WithMessage("{PropertyName} is required.")

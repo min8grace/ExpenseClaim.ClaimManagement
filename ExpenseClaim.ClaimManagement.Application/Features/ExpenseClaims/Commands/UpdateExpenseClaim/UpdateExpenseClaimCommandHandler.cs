@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using KakaoExpenseClaim.ClaimManagement.Application.Contracts.Persistence;
+using KakaoExpenseClaim.ClaimManagement.Application.Exceptions;
 using KakaoExpenseClaim.ClaimManagement.Domain.Entities;
 using MediatR;
 using System;
@@ -25,11 +26,23 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.C
         public async Task<Unit> Handle(UpdateExpenseClaimCommand request, CancellationToken cancellationToken)
         {
 
-            var currencyToUpdate = await _expenseClaimRepository.GetByIdAsync(request.ExpenseClaimId);
+            var expenseClaimyToUpdate = await _expenseClaimRepository.GetByIdAsync(request.ExpenseClaimId);
 
-            _mapper.Map(request, currencyToUpdate, typeof(UpdateExpenseClaimCommand), typeof(ExpenseClaim));
+            if (expenseClaimyToUpdate == null)
+            {
+                throw new NotFoundException(nameof(ExpenseClaim), request.ExpenseClaimId);
+            }
 
-            await _expenseClaimRepository.UpdateAsync(currencyToUpdate);
+            var validator = new UpdateExpenseClaimCommandValidator();
+            var validationResult = await validator.ValidateAsync(request);
+
+            if (validationResult.Errors.Count > 0)
+                throw new ValidationException(validationResult);
+
+
+            _mapper.Map(request, expenseClaimyToUpdate, typeof(UpdateExpenseClaimCommand), typeof(ExpenseClaim));
+
+            await _expenseClaimRepository.UpdateAsync(expenseClaimyToUpdate);
 
             return Unit.Value;
         }
