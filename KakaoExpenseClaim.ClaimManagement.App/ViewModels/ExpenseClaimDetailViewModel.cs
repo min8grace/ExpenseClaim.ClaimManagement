@@ -22,7 +22,8 @@ namespace KakaoExpenseClaim.ClaimManagement.App.ViewModels
         [DataType(DataType.Currency)]
         [Column(TypeName = "money")]
         public Decimal TotalAmount { get; set; }
-        public Status Status { get; set; }
+        public Status Status { get; set; }//  Requested = 1, Approved = 2, Rejected = 3, Queried = 4, Processing = 5, RejectedByFinance = 7, Finished = 8, Cancel = 9, Saved = 99
+
         public int RequesterId { get; set; }
 
         [DataType(DataType.Date)]

@@ -25,5 +25,16 @@ namespace KakaoExpenseClaim.ClaimManagement.Persistence.Repositories
             }
             return allExpenseClaims;
         }
+
+        public async Task<List<ExpenseClaim>> GetPagedClaimsForMonth(DateTime date, int page, int size)
+        {
+            return await _dbContext.ExpenseClaims.Where(x => x.SubmitDate.Month == date.Month && x.SubmitDate.Year == date.Year)
+               .Skip((page - 1) * size).Take(size).AsNoTracking().ToListAsync();
+        }
+
+        public async Task<int> GetTotalCountOfClaimsForMonth(DateTime date)
+        {
+            return await _dbContext.ExpenseClaims.CountAsync(x => x.SubmitDate.Month == date.Month && x.SubmitDate.Year == date.Year);
+        }
     }
 }

@@ -11,6 +11,7 @@ using KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Comma
 using KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Commands.UpdateExpenseClaim;
 using KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Queries.GetCategoriesList;
 using KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Queries.GetCategoriesListWithEvents;
+using KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Queries.GetClaimsForMonth;
 using KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Queries.GetExpenseClaimById;
 using KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Queries.GetExpenseClaimsExport;
 using KakaoExpenseClaim.ClaimManagement.Application.Features.Items.Queries.GetItemById;
@@ -23,8 +24,6 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Profiles
     {
         public MappingProfile()
         {
-
-
             CreateMap<CreateExpenseClaimCommand, ExpenseClaim>();
             CreateMap<CreateExpenseClaimDto, ExpenseClaim>().ReverseMap();
             CreateMap<UpdateExpenseClaimCommand, ExpenseClaim>();            
@@ -32,6 +31,7 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Profiles
             CreateMap<ExpenseClaim, ExpenseClaimItemListVm>();
             CreateMap<ExpenseClaimsExportDto, ExpenseClaim>();
             CreateMap<ExpenseClaim, ExpenseClaimDetailVm>();
+            CreateMap<ExpenseClaim, ClaimsForMonthDto>();
 
             CreateMap<CreateItemCommand, Item>();
             CreateMap<CreateItemDto,Item>().ReverseMap();
@@ -47,9 +47,6 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Profiles
             CreateMap<CreateCurrencyCommand, Currency>();
             CreateMap<UpdateCurrencyCommand, Currency>();
             CreateMap<Currency, CurrencyListVm>();
-
-
-
         }
     }
 }

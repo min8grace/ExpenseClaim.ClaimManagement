@@ -83,5 +83,12 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Services
                 return ConvertApiExceptions<int>(ex);
             }
         }
+
+        public async Task<PagedClaimForMonthViewModel> GetPagedClaimForMonth(DateTime date, int page, int size)
+        {
+            var Claims = await _client.GetPagedClaimsForMonthAsync(date, page, size);
+            var mappedClaims = _mapper.Map<PagedClaimForMonthViewModel>(Claims);
+            return mappedClaims;
+        }
     }
 }

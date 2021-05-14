@@ -4,11 +4,13 @@ using KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Comma
 using KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Commands.UpdateExpenseClaim;
 using KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Queries.GetCategoriesList;
 using KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Queries.GetCategoriesListWithEvents;
+using KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Queries.GetClaimsForMonth;
 using KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Queries.GetExpenseClaimById;
 using KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Queries.GetExpenseClaimsExport;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -33,7 +35,7 @@ namespace KakaoExpenseClaim.ClaimManagement.Api.Controllers
             return Ok(dtos);
         }
 
-        [HttpGet("allwithevents", Name = "GetExpenseClaimsWithItems")]
+        [HttpGet("allwithexpenseclaims", Name = "GetExpenseClaimsWithItems")]
         [ProducesDefaultResponseType]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<List<ExpenseClaimItemListVm>>> GetExpenseClaimsWithItems(bool includeHistory)
@@ -87,6 +89,16 @@ namespace KakaoExpenseClaim.ClaimManagement.Api.Controllers
             var fileDto = await _mediator.Send(new GetExpenseClaimsExportQuery());
 
             return File(fileDto.Data, fileDto.ContentType, fileDto.ExpenseClaimExportFileName);
+        }
+
+        [HttpGet("/getpagedclaimsformonth", Name = "GetPagedClaimsForMonth")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<PagedClaimsForMonthVm>> GetPagedOrdersForMonth(DateTime date, int page, int size)
+        {
+            var getOrdersForMonthQuery = new GetClaimsForMonthQuery() { Date = date, Page = page, Size = size };
+            var dtos = await _mediator.Send(getOrdersForMonthQuery);
+            return Ok(dtos);
         }
     }
 }

@@ -16,6 +16,7 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Contracts
         Task<ApiResponse<int>> CreateExpenseClaim(ExpenseClaimDetailViewModel expenseClaimViewModel);
         Task<ApiResponse<int>> UpdateExpenseClaim(ExpenseClaimDetailViewModel expenseClaimDetailViewModel);
         Task<ApiResponse<int>> DeleteExpenseClaim(int id);
+        Task<PagedClaimForMonthViewModel> GetPagedClaimForMonth(DateTime date, int page, int size);
 
     }
 }

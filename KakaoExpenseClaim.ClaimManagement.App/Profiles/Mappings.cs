@@ -21,13 +21,15 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Profiles
             CreateMap<ExpenseClaimItemsViewModel, ExpenseClaimItemListVm>().ReverseMap(); 
             CreateMap<ExpenseClaimDetailViewModel, ExpenseClaimDetailVm>().ReverseMap();
             CreateMap<CreateExpenseClaimCommand, ExpenseClaimViewModel>().ReverseMap();
-            //CreateMap<ExpenseClaimDto, CreateExpenseClaimCommandResponse>().ReverseMap();
             CreateMap<UpdateExpenseClaimCommand, ExpenseClaimDetailViewModel>().ReverseMap();
 
             CreateMap<ItemViewModel, ItemListVm>().ReverseMap();
             CreateMap<ItemDetailViewModel, ItemDetailVm>().ReverseMap();
             CreateMap<CreateItemCommand, ItemDetailViewModel>().ReverseMap();
             CreateMap<UpdateItemCommand, ItemDetailViewModel>().ReverseMap();
+
+            CreateMap<PagedClaimsForMonthVm, PagedClaimForMonthViewModel>().ReverseMap();
+            CreateMap<ClaimsForMonthDto, ExpenseClaimItemsViewModel>().ReverseMap();
         }
     }
 }
