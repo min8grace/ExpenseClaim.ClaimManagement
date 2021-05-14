@@ -2,6 +2,7 @@
 using KakaoExpenseClaim.ClaimManagement.Application.Contracts.Persistence;
 using KakaoExpenseClaim.ClaimManagement.Domain.Entities;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +17,13 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Features.Currencies.Comm
 
         private readonly IItemRepository _itemRepository;
         private readonly IMapper _mapper;
+        private readonly ILogger<CreateItemCommandHandler> _logger;
 
-
-        public CreateItemCommandHandler(IMapper mapper, IItemRepository itemRepository)
+        public CreateItemCommandHandler(IMapper mapper, IItemRepository itemRepository, ILogger<CreateItemCommandHandler> logger)
         {
             _mapper = mapper;
             _itemRepository = itemRepository;
+            _logger = logger;
         }
 
         public async Task<CreateItemCommandResponse> Handle(CreateItemCommand request, CancellationToken cancellationToken)

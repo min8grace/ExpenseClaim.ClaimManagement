@@ -9,6 +9,7 @@ using KakaoExpenseClaim.ClaimManagement.Application.Contracts.Infrastructure;
 using KakaoExpenseClaim.ClaimManagement.Application.Contracts.Persistence;
 using KakaoExpenseClaim.ClaimManagement.Application.Models.Mail;
 using KakaoExpenseClaim.ClaimManagement.Domain.Entities;
+using Microsoft.Extensions.Logging;
 using MediatR;
 
 namespace KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Commands.CreateExpenseClaim
@@ -18,12 +19,14 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.C
         private readonly IExpenseClaimRepository _expenseClaimRepository;
         private readonly IMapper _mapper;
         private readonly IEmailService _emailService;
+        private readonly ILogger<CreateExpenseClaimCommandHandler> _logger;
 
-        public CreateExpenseClaimCommandHandler(IMapper mapper, IExpenseClaimRepository expenseClaimRepository, IEmailService emailService)
+        public CreateExpenseClaimCommandHandler(IMapper mapper, IExpenseClaimRepository expenseClaimRepository, IEmailService emailService, ILogger<CreateExpenseClaimCommandHandler> logger)
         {
             _mapper = mapper;
             _expenseClaimRepository = expenseClaimRepository;
             _emailService = emailService;
+            _logger = logger;
         }
 
         public async Task<CreateExpenseClaimCommandResponse> Handle(CreateExpenseClaimCommand request, CancellationToken cancellationToken)
@@ -61,7 +64,7 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.C
             catch (Exception ex)
             {
                 //this shouldn't stop the API from doing else so this can be logged
-                //_logger.LogError($"Mailing about ExpenseClaim {createExpenseClaimCommandResponse.ExpenseClaim.ExpenseClaimId} failed due to an error with the mail service: {ex.Message}");
+                _logger.LogError($"Mailing about ExpenseClaim {createExpenseClaimCommandResponse.ExpenseClaim.ExpenseClaimId} failed due to an error with the mail service: {ex.Message}");
             }
 
 
