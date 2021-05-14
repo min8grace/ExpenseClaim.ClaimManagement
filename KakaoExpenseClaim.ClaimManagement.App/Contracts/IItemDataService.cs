@@ -9,7 +9,7 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Contracts
 {
     public interface IItemDataService
     {
-        Task<List<ItemViewModel>> GetAllItems();
+        Task<List<ItemViewModel>> GetAllItems(int id);
         Task<ItemDetailViewModel> GetItemById(int id);
         Task<ApiResponse<int>> CreateItem(ItemDetailViewModel itemDetailViewModel);
         Task<ApiResponse<int>> UpdateItem(ItemDetailViewModel itemClaimDetailViewModel);

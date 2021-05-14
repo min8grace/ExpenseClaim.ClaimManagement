@@ -5,6 +5,6 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Features.Items.Queries.G
 {
     public class GetItemsListQuery: IRequest<List<ItemListVm>>
     {
-
+        public int Id { get; set; }
     }
 }

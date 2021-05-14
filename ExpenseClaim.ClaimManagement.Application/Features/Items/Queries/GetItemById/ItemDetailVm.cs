@@ -11,9 +11,9 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Features.Items.Queries.G
         public Decimal Amount { get; set; }
         public int CurrencyId { get; set; }
         public Decimal USDAmount { get; set; }
-        public string Description { get; set; }
+        public string Description { get; set; }        
         public byte[] Receipt { get; set; }
-        public int ClaimId { get; set; }
+        public int ExpenseClaimId { get; set; }
         public ExpenseClaimDto ExpenseClaim { get; set; }
     }
 }

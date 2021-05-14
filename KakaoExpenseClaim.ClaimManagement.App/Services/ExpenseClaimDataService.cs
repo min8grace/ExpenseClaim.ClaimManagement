@@ -22,13 +22,12 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Services
         {
             var allExpenseClaims = await _client.GetAllExpenseClaimsAsync();
             var mappedExpenseClaims = _mapper.Map<ICollection<ExpenseClaimViewModel>>(allExpenseClaims);
-            return mappedExpenseClaims.ToList();
-            
+            return mappedExpenseClaims.ToList();            
         }
 
         public async Task<List<ExpenseClaimItemsViewModel>> GetExpenseClaimsWithItems(bool includeHistory)
         {
-            await AddBearerToken();
+            //await AddBearerToken();
 
             var allExpenseClaims = await _client.GetExpenseClaimsWithItemsAsync(includeHistory);
             var mappedExpenseClaims = _mapper.Map<ICollection<ExpenseClaimItemsViewModel>>(allExpenseClaims);
@@ -44,41 +43,22 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Services
             return mappedtExpenseClaim;
         }
 
-        public async Task<ApiResponse<ExpenseClaimDto>> CreateExpenseClaim(ExpenseClaimViewModel expenseClaimViewModel)
+        public async Task<ApiResponse<int>> CreateExpenseClaim(ExpenseClaimDetailViewModel expenseClaimDetailViewModel)
         {
             try
             {
-                ApiResponse<ExpenseClaimDto> apiResponse = new ApiResponse<ExpenseClaimDto>();
-                CreateExpenseClaimCommand createExpenseClaimCommand = _mapper.Map<CreateExpenseClaimCommand>(expenseClaimViewModel);
-                
-
-                var createExpenseClaimCommandResponse = await _client.AddExpenseClaimAsync(createExpenseClaimCommand);
-                if (createExpenseClaimCommandResponse.Success)
-                {
-                    apiResponse.Data = _mapper.Map<ExpenseClaimDto>(createExpenseClaimCommandResponse.ExpenseClaim);
-                    apiResponse.Success = true;
-                }
-                else
-                {
-                    apiResponse.Data = null;
-                    foreach (var error in createExpenseClaimCommandResponse.ValidationErrors)
-                    {
-                        apiResponse.ValidationErrors += error + Environment.NewLine;
-                    }
-                }
-                return apiResponse;
+                CreateExpenseClaimCommand createExpenseClaimCommand = _mapper.Map<CreateExpenseClaimCommand>(expenseClaimDetailViewModel);
+                var newId = await _client.AddExpenseClaimAsync(createExpenseClaimCommand);
+                return new ApiResponse<int>() { Data = newId, Success = true };
             }
             catch (ApiException ex)
             {
-                var response = ConvertApiExceptions<ExpenseClaimDto>(ex);
-                return new ApiResponse<ExpenseClaimDto>() { Message = response.Message, ValidationErrors = response.ValidationErrors, Success = response.Success };
-                
+                return ConvertApiExceptions<int>(ex);
             }
         }
 
         public async Task<ApiResponse<int>> UpdateExpenseClaim(ExpenseClaimDetailViewModel expenseClaimDetailViewModel)
-        {
-            
+        {            
             try
             {
                 UpdateExpenseClaimCommand updateExpenseClaimCommand = _mapper.Map<UpdateExpenseClaimCommand>(expenseClaimDetailViewModel);
@@ -87,7 +67,6 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Services
             }
             catch (ApiException ex)
             {
-
                 return ConvertApiExceptions<int>(ex);
             }
         }

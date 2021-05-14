@@ -20,7 +20,7 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Services
 
         public async Task<List<CurrencyViewModel>> GetAllCurrencies()
         {
-            await AddBearerToken();
+            //await AddBearerToken();
 
             var allCurrencies = await _client.GetAllCurrenciesAsync();
             var mappedCurrencies = _mapper.Map<ICollection<CurrencyViewModel>>(allCurrencies);

@@ -18,9 +18,9 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Services
             _mapper = mapper;
         }
 
-        public async Task<List<ItemViewModel>> GetAllItems()
+        public async Task<List<ItemViewModel>> GetAllItems(int id)
         {
-            var allItems = await _client.GetAllItemsAsync();
+            var allItems = await _client.GetAllItemsAsync(id);
             var mappedItems = _mapper.Map<ICollection<ItemViewModel>>(allItems);
             return mappedItems.ToList();
         }
@@ -55,7 +55,6 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Services
             }
             catch (ApiException ex)
             {
-
                 return ConvertApiExceptions<int>(ex);
             }
         }

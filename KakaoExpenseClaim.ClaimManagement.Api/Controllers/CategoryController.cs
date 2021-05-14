@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace KakaoExpenseClaim.ClaimManagement.Api.Controllers
 {
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoryController : ControllerBase
@@ -20,7 +21,7 @@ namespace KakaoExpenseClaim.ClaimManagement.Api.Controllers
             _mediator = mediator;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("all", Name = "GetAllCategories")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<List<CategoryListVm>>> GetAllCategories()

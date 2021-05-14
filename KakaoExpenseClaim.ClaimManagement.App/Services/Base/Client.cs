@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 
-namespace KakaoExpenseClaim.ClaimManagement.App.Services.Base
+namespace KakaoExpenseClaim.ClaimManagement.App.Services
 {
     public partial class Client : IClient
     {

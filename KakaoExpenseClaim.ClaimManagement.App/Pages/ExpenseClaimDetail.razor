@@ -1,0 +1,96 @@
+﻿@page "/expenseclaimdetail"
+@page "/expenseclaimdetail/{ExpenseClaimid}"
+
+<h1 class="page-title">Claim Details</h1>
+
+@Message
+
+<EditForm Model="@ExpenseClaimDetailViewModel" OnValidSubmit="@HandleValidSubmit">
+    @*<DataAnnotationsValidator />
+        <ValidationSummary></ValidationSummary>*@
+
+    <div class="form-group row">
+        <label for="title" class="col-sm-3">ExpenseClaim Title: </label>
+        <InputText id="title" class="form-control col-sm-8" @bind-Value="@ExpenseClaimDetailViewModel.Title" placeholder="Enter title"></InputText>
+        <ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => ExpenseClaimDetailViewModel.Title)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="totalprice" class="col-sm-3">Price: </label>
+        <InputNumber id="totalprice" class="form-control col-sm-8" format="" @bind-Value="@ExpenseClaimDetailViewModel.TotalAmount" placeholder="Enter total Amount"></InputNumber>
+        <ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => ExpenseClaimDetailViewModel.TotalAmount)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="status" class="col-sm-3">Status: </label>
+        <InputSelect id="status" class="form-control" placeholder="Status" style="width:800px" @bind-Value="ExpenseClaimDetailViewModel.Status">
+            @foreach (var status in Enum.GetValues(typeof(KakaoExpenseClaim.ClaimManagement.App.Services.Status)))
+            {
+                <option value="@status"> @status</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="form-group row">
+        <label for="date" class="col-sm-3">Requester Id: </label>
+        <InputNumber id="date" class="form-control col-sm-8" @bind-Value="@ExpenseClaimDetailViewModel.RequesterId"></InputNumber>
+    </div>
+
+    <div class="form-group row">
+        <label for="submitDate" class="col-sm-3">Submit Date: </label>
+        <InputDate id="submitDate" class="form-control col-sm-8" @bind-Value="@ExpenseClaimDetailViewModel.SubmitDate"></InputDate>
+    </div>
+
+    <div class="form-group row">
+        <label for="requesterComments" class="col-sm-3">Requester Comments: </label>
+        <InputTextArea id="requesterComments" class="form-control col-sm-8" @bind-Value="@ExpenseClaimDetailViewModel.RequesterComments" placeholder="Enter Requester Comments"></InputTextArea>
+        <ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => ExpenseClaimDetailViewModel.RequesterComments)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="approverId" class="col-sm-3">Approver Id: </label>
+        <InputNumber id="approverId" class="form-control col-sm-8" @bind-Value="@ExpenseClaimDetailViewModel.ApproverId"></InputNumber>
+    </div>
+
+    <div class="form-group row">
+        <label for="approvalDate" class="col-sm-3">Submit Date: </label>
+        <InputDate id="approvalDate" class="form-control col-sm-8" @bind-Value="@ExpenseClaimDetailViewModel.ApprovalDate"></InputDate>
+    </div>
+
+    <div class="form-group row">
+        <label for="approverComments" class="col-sm-3">Approver Comments: </label>
+        <InputTextArea id="approverComments" class="form-control col-sm-8" @bind-Value="@ExpenseClaimDetailViewModel.ApproverComments" placeholder="Enter Approver Comments"></InputTextArea>
+        <ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => ExpenseClaimDetailViewModel.ApproverComments)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="financeId" class="col-sm-3">Approver Id: </label>
+        <InputNumber id="financeId" class="form-control col-sm-8" @bind-Value="@ExpenseClaimDetailViewModel.FinanceId"></InputNumber>
+    </div>
+
+    <div class="form-group row">
+        <label for="processedDate" class="col-sm-3">Submit Date: </label>
+        <InputDate id="processedDate" class="form-control col-sm-8" @bind-Value="@ExpenseClaimDetailViewModel.ProcessedDate"></InputDate>
+    </div>
+
+    <div class="form-group row">
+        <label for="financeComments" class="col-sm-3">Finance Comments: </label>
+        <InputTextArea id="financeComments" class="form-control col-sm-8" @bind-Value="@ExpenseClaimDetailViewModel.FinanceComments" placeholder="Enter Finance Comments"></InputTextArea>
+        <ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => ExpenseClaimDetailViewModel.FinanceComments)" />
+    </div>
+    <button type="submit" class="submit-button">Save expenseClaim</button>
+
+</EditForm>
+
+@if (SelectedExpenseClaimId == 0)
+{
+    <p>
+        <button @onclick="DeleteExpenseClaim" class="delete-button">Delete ExpenseClaim</button>
+    </p>
+}
+<br />
+
+<div>
+    <ItemOverview SelectedExpenseClaimId ="SelectedExpenseClaimId"/>
+</div>
+<p class="back-to-catalog mt-3"><img src="img/back-arrow.svg" /><a @onclick="@NavigateToOverview">Back to overview</a></p>

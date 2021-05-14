@@ -16,6 +16,7 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Features.Currencies.Comm
         public int CurrencyId { get; set; }
         public Decimal USDAmount { get; set; }
         public string Description { get; set; }
+        
         public byte[] Receipt { get; set; }
         public int ExpenseClaimId { get; set; }
         public override string ToString()

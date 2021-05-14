@@ -11,20 +11,27 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Features.Items.Queries.G
 {
     public class GetItemsListQueryHandler : IRequestHandler<GetItemsListQuery, List<ItemListVm>>
     {
-        private readonly IAsyncRepository<Item> _eventRepository;
+        private readonly IAsyncRepository<Item> _itemRepository;
         private readonly IMapper _mapper;
 
-        public GetItemsListQueryHandler(IMapper mapper, IAsyncRepository<Item> eventRepository)
+        public GetItemsListQueryHandler(IMapper mapper, IAsyncRepository<Item> itemRepository)
         {
             _mapper = mapper;
-            _eventRepository = eventRepository;
+            _itemRepository = itemRepository;
         }
 
         public async Task<List<ItemListVm>> Handle(GetItemsListQuery request, CancellationToken cancellationToken)
         {
-            var allEvents = (await _eventRepository.ListAllAsync()).OrderBy(x => x.Date);
-            return _mapper.Map<List<ItemListVm>>(allEvents);
-
+            if(request.Id == 0)
+            {
+                var allItems = (await _itemRepository.ListAllAsync()).OrderBy(x => x.Date);
+                return _mapper.Map<List<ItemListVm>>(allItems);
+            }                
+            else
+            {
+                var allItems = (await _itemRepository.ListAllAsync()).Where(x => x.ExpenseClaimId.Equals(request.Id)).OrderBy(x => x.Date);
+                return _mapper.Map<List<ItemListVm>>(allItems);
+            }
         }
     }
 }

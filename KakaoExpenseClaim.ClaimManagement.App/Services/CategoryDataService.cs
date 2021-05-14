@@ -20,7 +20,7 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Services
 
         public async Task<List<CategoryViewModel>> GetAllCategories()
         {
-            await AddBearerToken();
+            //await AddBearerToken();
 
             var allCategories = await _client.GetAllCategoriesAsync();
             var mappedCategories = _mapper.Map<ICollection<CategoryViewModel>>(allCategories);          

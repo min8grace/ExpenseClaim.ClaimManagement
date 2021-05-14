@@ -1,0 +1,29 @@
+﻿@page "/currencyoverview"
+
+<h3>Currnecy Overview</h3>
+<br />
+
+@if (Currencies == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Symbol</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cat in Currencies)
+            {
+                <tr>
+                    <td class="ExpenseClaim-name">@cat.Name </td>
+                    <td class="ExpenseClaim-name">@cat.Symbol </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

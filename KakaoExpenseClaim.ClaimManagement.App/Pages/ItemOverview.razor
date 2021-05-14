@@ -1,0 +1,49 @@
+﻿@*@page "/ItemOverview"*@
+
+<br />
+
+@if (Items == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                @*<th>ItemId         </th>*@
+                <th>Category     </th>
+                <th>PayeeId        </th>
+                <th>Date           </th>
+                <th>Amount         </th>
+                <th>Currency     </th>
+                <th>USDAmount      </th>
+                <th>Description    </th>
+                @*<th>Receipt        </th>*@
+                @*<th>ExpenseClaimId </th>*@
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var itm in Items)
+            {
+                <tr>
+                    @*<td class="Item-name">@itm.ItemId        </td>*@
+                    <td class="Item-name">@itm.CategoryName    </td>
+                    <td class="Item-name">@itm.PayeeId       </td>
+                    <td class="Item-name">@itm.Date.ToShortDateString()          </td>
+                    <td class="Item-name">@itm.Amount        </td>
+                    <td class="Item-date">@itm.CurrencyName    </td>
+                    <td class="Item-date">@itm.USDAmount     </td>
+                    <td class="Item-date">@itm.Description   </td>
+                    @*<td class="Item-date">@itm.Receipt       </td>*@
+                    @*<td class="Item-date">@itm.ExpenseClaimId   </td>*@
+                    <td>
+                        <a href="@($"Itemdetails/{itm.ItemId}")" class="Item-purchase-button btn">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

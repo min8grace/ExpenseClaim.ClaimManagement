@@ -9,10 +9,12 @@ namespace KakaoExpenseClaim.ClaimManagement.App.ViewModels
     {
         public int ItemId { get; set; }
         public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
         public int PayeeId { get; set; }
         public DateTime Date { get; set; }
         public Decimal Amount { get; set; }
         public int CurrencyId { get; set; }
+        public string CurrencyName { get; set; }
         public Decimal USDAmount { get; set; }
         public string Description { get; set; }
         public byte[] Receipt { get; set; }

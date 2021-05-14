@@ -26,15 +26,15 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Profiles
 
 
             CreateMap<CreateExpenseClaimCommand, ExpenseClaim>();
-            CreateMap<ExpenseClaim, CreateExpenseClaimDto>();
-            CreateMap<UpdateExpenseClaimCommand, ExpenseClaim>();
+            CreateMap<CreateExpenseClaimDto, ExpenseClaim>().ReverseMap();
+            CreateMap<UpdateExpenseClaimCommand, ExpenseClaim>();            
             CreateMap<ExpenseClaim, ExpenseClaimListVm>();
             CreateMap<ExpenseClaim, ExpenseClaimItemListVm>();
             CreateMap<ExpenseClaimsExportDto, ExpenseClaim>();
             CreateMap<ExpenseClaim, ExpenseClaimDetailVm>();
 
             CreateMap<CreateItemCommand, Item>();
-            CreateMap<Item, CreateItemDto>();
+            CreateMap<CreateItemDto,Item>().ReverseMap();
             CreateMap<UpdateItemCommand, Item>();
             CreateMap<Item, ItemDetailVm>();
             CreateMap<Item, ItemListVm>();
@@ -44,9 +44,9 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Profiles
             CreateMap<UpdateCategoryCommand, Category>();
             CreateMap<Category, CategoryListVm>();
 
-            CreateMap<CreateCurrencyCommand, Category>();
-            CreateMap<UpdateCurrencyCommand, Category>();
-            CreateMap<Category, CurrencyListVm>();
+            CreateMap<CreateCurrencyCommand, Currency>();
+            CreateMap<UpdateCurrencyCommand, Currency>();
+            CreateMap<Currency, CurrencyListVm>();
 
 
 

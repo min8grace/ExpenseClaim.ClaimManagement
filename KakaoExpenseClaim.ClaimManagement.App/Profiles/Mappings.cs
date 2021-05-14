@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using KakaoExpenseClaim.ClaimManagement.App.Services.Base;
+using KakaoExpenseClaim.ClaimManagement.App.Services;
 using KakaoExpenseClaim.ClaimManagement.App.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -12,20 +12,22 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Profiles
     {
         public Mappings()
         {
-            CreateMap<CategoryViewModel, CategoryListVm>();
-            CreateMap<CurrencyViewModel, CurrencyListVm>();
+            // basically from left to right
+            // with REverseMap(), from right to left
+            CreateMap<CategoryViewModel, CategoryListVm>().ReverseMap();
+            CreateMap<CurrencyViewModel, CurrencyListVm>().ReverseMap();
 
-            CreateMap<ExpenseClaimViewModel, ExpenseClaimListVm>();
-            CreateMap<ExpenseClaimItemsViewModel, ExpenseClaimItemListVm>();
-            CreateMap<ExpenseClaimDetailViewModel, ExpenseClaimDetailVm>();
-            CreateMap<CreateExpenseClaimCommand, ExpenseClaimViewModel>();
-            CreateMap<ExpenseClaimDto, CreateExpenseClaimCommandResponse>();
-            CreateMap<UpdateExpenseClaimCommand, ExpenseClaimDetailViewModel>();
+            CreateMap<ExpenseClaimViewModel, ExpenseClaimListVm>().ReverseMap();
+            CreateMap<ExpenseClaimItemsViewModel, ExpenseClaimItemListVm>().ReverseMap(); 
+            CreateMap<ExpenseClaimDetailViewModel, ExpenseClaimDetailVm>().ReverseMap();
+            CreateMap<CreateExpenseClaimCommand, ExpenseClaimViewModel>().ReverseMap();
+            //CreateMap<ExpenseClaimDto, CreateExpenseClaimCommandResponse>().ReverseMap();
+            CreateMap<UpdateExpenseClaimCommand, ExpenseClaimDetailViewModel>().ReverseMap();
 
-            CreateMap<ItemViewModel, ItemListVm>();
-            CreateMap<ItemDetailViewModel, ItemDetailVm>();
-            CreateMap<CreateItemCommand, ItemDetailViewModel>();
-            CreateMap<UpdateItemCommand, ItemDetailViewModel>();
+            CreateMap<ItemViewModel, ItemListVm>().ReverseMap();
+            CreateMap<ItemDetailViewModel, ItemDetailVm>().ReverseMap();
+            CreateMap<CreateItemCommand, ItemDetailViewModel>().ReverseMap();
+            CreateMap<UpdateItemCommand, ItemDetailViewModel>().ReverseMap();
         }
     }
 }

@@ -53,10 +53,10 @@ namespace KakaoExpenseClaim.ClaimManagement.Api.Controllers
         }
 
         [HttpPost(Name = "AddExpenseClaim")]
-        public async Task<ActionResult<CreateExpenseClaimCommandResponse>> Create([FromBody] CreateExpenseClaimCommand createExpenseClaimCommand)
+        public async Task<ActionResult<int>> Create([FromBody] CreateExpenseClaimCommand createExpenseClaimCommand)
         {
-            var response = await _mediator.Send(createExpenseClaimCommand);
-            return Ok(response);
+            var id = await _mediator.Send(createExpenseClaimCommand);
+            return Ok(id);
         }
 
         [HttpPut(Name = "UpdateExpenseClaim")]

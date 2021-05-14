@@ -36,6 +36,10 @@ namespace KakaoExpenseClaim.ClaimManagement.Api
             services.AddInfrastructureServices(Configuration);
             services.AddPersistenceServices(Configuration);
 
+            //services.AddIdentityServices(Configuration);
+
+            //services.AddScoped<ILoggedInUserService, LoggedInUserService>();
+
             services.AddControllers();
 
             services.AddCors(options =>

@@ -1,0 +1,70 @@
+﻿@page "/Itemdetails"
+@page "/Itemdetails/{ItemId}"
+
+<h1 class="page-title">Item Details </h1>
+
+@Message
+
+<EditForm Model="@ItemDetailViewModel" OnValidSubmit="@HandleValidSubmit">
+    @*<DataAnnotationsValidator />
+        <ValidationSummary></ValidationSummary>*@
+
+    <div class="form-group row">
+        <label for="category" class="col-sm-3">Category: </label>
+        <InputSelect id="category" class="form-control col-sm-8" @bind-Value="@SelectedCategoryId">
+            @foreach (var category in Categories)
+            {
+                <option value="@category.Id">@category.Name</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="form-group row">
+        <label for="payeeId" class="col-sm-3">Payee Id: </label>
+        <InputNumber id="payeeId" class="form-control col-sm-8" @bind-Value="@ItemDetailViewModel.PayeeId" placeholder="Enter Payee Id"></InputNumber>
+    </div>
+
+    <div class="form-group row">
+        <label for="submitDate" class="col-sm-3">Date: </label>
+        <InputDate id="submitDate" class="form-control col-sm-8" @bind-Value="@ItemDetailViewModel.Date"></InputDate>
+    </div>
+
+    <div class="form-group row">
+        <label for="amount" class="col-sm-3">Amount: </label>
+        <InputNumber id="amount" class="form-control col-sm-8" @bind-Value="@ItemDetailViewModel.Amount" placeholder="Enter Amount"></InputNumber>
+        <ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => ItemDetailViewModel.Amount)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="currency" class="col-sm-3">Currency: </label>
+        <InputSelect id="currency" class="form-control col-sm-8" @bind-Value="@SelectedCurrencyId">
+            @foreach (var currency in Currencies)
+            {
+            <option value="@currency.Id">@currency.Symbol @currency.Name</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="form-group row">
+        <label for="usdamount" class="col-sm-3">$USD : </label>
+        <InputNumber id="usdamount" class="form-control col-sm-8" @bind-Value="@ItemDetailViewModel.USDAmount" placeholder="Enter USD Amount"></InputNumber>
+        <ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => ItemDetailViewModel.USDAmount)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="description" class="col-sm-3">Description: </label>
+        <InputTextArea id="description" class="form-control col-sm-8" @bind-Value="@ItemDetailViewModel.Description" placeholder="Enter Description Comments"></InputTextArea>
+        <ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => ItemDetailViewModel.Description)" />
+    </div>
+    <button type="submit" class="submit-button">Save Item</button>
+
+</EditForm>
+
+@if (SelectedItemId == 0)
+{
+    <p>
+        <button @onclick="DeleteItem" class="delete-button">Delete Item</button>
+    </p>
+}
+<br />
+<p class="back-to-catalog mt-3"><img src="img/back-arrow.svg" /><a @onclick="@NavigateToOverview">Back to overview</a></p>

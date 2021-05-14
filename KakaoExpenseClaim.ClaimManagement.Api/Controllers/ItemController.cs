@@ -24,12 +24,12 @@ namespace KakaoExpenseClaim.ClaimManagement.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet(Name = "GetAllItems")]
+        [HttpGet("all", Name = "GetAllItems")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult<List<ItemListVm>>> GetAllItems()
+        public async Task<ActionResult<List<ItemListVm>>> GetAllItems(int id)
         {
-            var dtos = await _mediator.Send(new GetItemsListQuery());
+            var dtos = await _mediator.Send(new GetItemsListQuery() { Id = id });
             return Ok(dtos);
         }
 

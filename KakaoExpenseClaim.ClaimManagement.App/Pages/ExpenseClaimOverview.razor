@@ -1,0 +1,43 @@
+﻿@page "/expenseclaimoverview"
+<h3>Expense Claim Overview</h3>
+
+<br />
+
+@if (ExpenseClaims == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Requester</th>
+                <th>SubmitDate</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var exp in ExpenseClaims)
+            {
+                <tr>
+                    <td class="ExpenseClaim-name">@exp.ExpenseClaimId </td>
+                    <td class="ExpenseClaim-name">@exp.Title </td>
+                    <td class="ExpenseClaim-name">@exp.TotalAmount </td>
+                    <td class="ExpenseClaim-name">@exp.Status </td>
+                    <td class="ExpenseClaim-name">@exp.RequesterId </td>
+                    <td class="ExpenseClaim-date">@exp.SubmitDate.ToShortDateString() </td>
+                    <td>
+                        <a href="@($"expenseclaimdetail/{exp.ExpenseClaimId}")" class="ExpenseClaim-purchase-button btn">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
