@@ -17,8 +17,8 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Pages
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
-        public string SelectedMonth { get; set; }
-        public string SelectedYear { get; set; }
+        public string SelectedMonth { get; set; } = String.Concat(DateTime.Now.Month).Length > 1 ? String.Concat(DateTime.Now.Month) : "0"+String.Concat(DateTime.Now.Month);
+        public string SelectedYear { get; set; } = String.Concat(DateTime.Now.Year);
 
         public List<string> MonthList { get; set; } = new List<string>() { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" };
         public List<string> YearList { get; set; } = new List<string>() { "2020", "2021", "2022" };
