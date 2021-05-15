@@ -16,6 +16,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KakaoExpenseClaim.ClaimManagement.Api.Middleware;
+using KakaoExpenseClaim.ClaimManagement.Application.Contracts;
+using KakaoExpenseClaim.ClaimManagement.Api.Services;
+using KakaoExpenseClaim.ClaimManagement.Identity;
 
 namespace KakaoExpenseClaim.ClaimManagement.Api
 {
@@ -37,9 +40,9 @@ namespace KakaoExpenseClaim.ClaimManagement.Api
             services.AddInfrastructureServices(Configuration);
             services.AddPersistenceServices(Configuration);
 
-            //services.AddIdentityServices(Configuration);
+            services.AddIdentityServices(Configuration);
 
-            //services.AddScoped<ILoggedInUserService, LoggedInUserService>();
+            services.AddScoped<ILoggedInUserService, LoggedInUserService>();
 
             services.AddControllers();
 
@@ -54,40 +57,40 @@ namespace KakaoExpenseClaim.ClaimManagement.Api
         {
             services.AddSwaggerGen(c =>
             {
-                //c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                //{
-                //    Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
-                //      Enter 'Bearer' [space] and then your token in the text input below.
-                //      \r\n\r\nExample: 'Bearer 12345abcdef'",
-                //    Name = "Authorization",
-                //    In = ParameterLocation.Header,
-                //    Type = SecuritySchemeType.ApiKey,
-                //    Scheme = "Bearer"
-                //});
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
+                      Enter 'Bearer' [space] and then your token in the text input below.
+                      \r\n\r\nExample: 'Bearer 12345abcdef'",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
 
-                //c.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                //  {
-                //    {
-                //      new OpenApiSecurityScheme
-                //      {
-                //        Reference = new OpenApiReference
-                //          {
-                //            Type = ReferenceType.SecurityScheme,
-                //            Id = "Bearer"
-                //          },
-                //          Scheme = "oauth2",
-                //          Name = "Bearer",
-                //          In = ParameterLocation.Header,
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                  {
+                    {
+                      new OpenApiSecurityScheme
+                      {
+                        Reference = new OpenApiReference
+                          {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                          },
+                          Scheme = "oauth2",
+                          Name = "Bearer",
+                          In = ParameterLocation.Header,
 
-                //        },
-                //        new List<string>()
-                //      }
-                //    });
+                        },
+                        new List<string>()
+                      }
+                    });
 
-                //services.AddSwaggerGen(c =>
-                //{
-                //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "KakaoExpenseClaim.ClaimManagement.Api", Version = "v1" });
-                //});
+                services.AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "KakaoExpenseClaim.ClaimManagement.Api", Version = "v1" });
+                });
 
 
                 c.SwaggerDoc("v1", new OpenApiInfo

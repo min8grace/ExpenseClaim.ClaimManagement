@@ -1,4 +1,5 @@
-﻿using KakaoExpenseClaim.ClaimManagement.Domain.Common;
+﻿using KakaoExpenseClaim.ClaimManagement.Application.Contracts;
+using KakaoExpenseClaim.ClaimManagement.Domain.Common;
 using KakaoExpenseClaim.ClaimManagement.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,9 +13,17 @@ namespace KakaoExpenseClaim.ClaimManagement.Persistence
 {
     public class ExpenseClaimDbContext : DbContext
     {
-        public ExpenseClaimDbContext(DbContextOptions<ExpenseClaimDbContext> options) : base(options)
-        {
+        private readonly ILoggedInUserService _loggedInUserService;
 
+        public ExpenseClaimDbContext(DbContextOptions<ExpenseClaimDbContext> options)
+         : base(options)
+        {
+        }
+
+        public ExpenseClaimDbContext(DbContextOptions<ExpenseClaimDbContext> options, ILoggedInUserService loggedInUserService)
+            : base(options)
+        {
+            _loggedInUserService = loggedInUserService;
         }
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<Category> Categories { get; set; }
