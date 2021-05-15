@@ -1,7 +1,8 @@
 ﻿
 <div class="sidebar">
     <div class="menu list-group list-group-flush">
-
+        <AuthorizeView>
+            <Authorized>
                 <NavLink class="list-group-item list-group-item-action" href="/" Match="NavLinkMatch.All">
                     <span class="oi oi-home" aria-hidden="true"></span> Home
                 </NavLink>
@@ -14,7 +15,8 @@
                 <NavLink class="list-group-item list-group-item-action" href="/currencyoverview">
                     <span class="oi oi-euro" aria-hidden="true"></span> Currency
                 </NavLink>
-
+            </Authorized>
+        </AuthorizeView>
     </div>
 </div>
 

@@ -1,8 +1,11 @@
 using Blazored.LocalStorage;
+using KakaoExpenseClaim.ClaimManagement.App.Auth;
 using KakaoExpenseClaim.ClaimManagement.App.Contracts;
 using KakaoExpenseClaim.ClaimManagement.App.Services;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using MudBlazor.Services;
 using System;
 using System.Net.Http;
 using System.Reflection;
@@ -20,8 +23,8 @@ namespace KakaoExpenseClaim.ClaimManagement.App
             builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
             builder.Services.AddBlazoredLocalStorage();
 
-            //builder.Services.AddAuthorizationCore();
-            //builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+            builder.Services.AddAuthorizationCore();
+            builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 
 
             builder.Services.AddSingleton(new HttpClient
@@ -35,8 +38,8 @@ namespace KakaoExpenseClaim.ClaimManagement.App
             builder.Services.AddScoped<ICategoryDataService, CategoryDataService>();
             builder.Services.AddScoped<IExpenseClaimDataService, ExpenseClaimDataService>();
             builder.Services.AddScoped<IItemDataService, ItemDataService>();
-            //builder.Services.AddMudServices();
-            //builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+            builder.Services.AddMudServices();
+            builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
             await builder.Build().RunAsync();
         }

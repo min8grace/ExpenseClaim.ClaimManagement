@@ -20,6 +20,8 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Services
 
         public async Task<List<ExpenseClaimViewModel>> GetAllExpenseClaims()
         {
+            await AddBearerToken();
+
             var allExpenseClaims = await _client.GetAllExpenseClaimsAsync();
             var mappedExpenseClaims = _mapper.Map<ICollection<ExpenseClaimViewModel>>(allExpenseClaims);
             return mappedExpenseClaims.ToList();            
@@ -27,7 +29,7 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Services
 
         public async Task<List<ExpenseClaimItemsViewModel>> GetExpenseClaimsWithItems(bool includeHistory)
         {
-            //await AddBearerToken();
+            await AddBearerToken();
 
             var allExpenseClaims = await _client.GetExpenseClaimsWithItemsAsync(includeHistory);
             var mappedExpenseClaims = _mapper.Map<ICollection<ExpenseClaimItemsViewModel>>(allExpenseClaims);
@@ -37,6 +39,8 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Services
 
         public async Task<ExpenseClaimDetailViewModel> GetExpenseClaimById(int id)
         {
+            await AddBearerToken();
+
             var selectedtExpenseClaim = await _client.GetExpenseClaimByIdAsync(id);
             var mappedtExpenseClaim = _mapper.Map<ExpenseClaimDetailViewModel>(selectedtExpenseClaim);
 

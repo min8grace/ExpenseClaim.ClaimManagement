@@ -1,40 +1,40 @@
-﻿using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using KakaoExpenseClaim.ClaimManagement.App.Auth;
+using KakaoExpenseClaim.ClaimManagement.App.Contracts;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using System.Threading.Tasks;
 
 namespace KakaoExpenseClaim.ClaimManagement.App.Pages
 {
     public partial class Index
     {
-        //[Inject]
-        //private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+        [Inject]
+        private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
 
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
-        //[Inject]
-        //public IAuthenticationService AuthenticationService { get; set; }
+        [Inject]
+        public IAuthenticationService AuthenticationService { get; set; }
 
         protected async override Task OnInitializedAsync()
         {
-            //await ((CustomAuthenticationStateProvider)AuthenticationStateProvider).GetAuthenticationStateAsync();
+            await ((CustomAuthenticationStateProvider)AuthenticationStateProvider).GetAuthenticationStateAsync();
         }
 
-        //protected void NavigateToLogin()
-        //{
-        //    NavigationManager.NavigateTo("login");
-        //}
+        protected void NavigateToLogin()
+        {
+            NavigationManager.NavigateTo("login");
+        }
 
-        //protected void NavigateToRegister()
-        //{
-        //    NavigationManager.NavigateTo("register");
-        //}
+        protected void NavigateToRegister()
+        {
+            NavigationManager.NavigateTo("register");
+        }
 
-        //protected async void Logout()
-        //{
-        //    await AuthenticationService.Logout();
-        //}
+        protected async void Logout()
+        {
+            await AuthenticationService.Logout();
+        }
     }
 }

@@ -5,7 +5,7 @@ using KakaoExpenseClaim.ClaimManagement.Infrastructure.Mail;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace KakaoExpenseClaim.ClaimManagement.Infrastructure
+namespace KakaoExpenseClaim.ClaimManagement.Infrastructure  
 {
     public static class InfrastructureServiceRegistration
     {

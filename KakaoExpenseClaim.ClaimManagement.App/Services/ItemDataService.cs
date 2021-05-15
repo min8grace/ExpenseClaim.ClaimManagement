@@ -20,6 +20,8 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Services
 
         public async Task<List<ItemViewModel>> GetAllItems(int id)
         {
+            await AddBearerToken();
+
             var allItems = await _client.GetAllItemsAsync(id);
             var mappedItems = _mapper.Map<ICollection<ItemViewModel>>(allItems);
             return mappedItems.ToList();
@@ -27,6 +29,8 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Services
 
         public async Task<ItemDetailViewModel> GetItemById(int id)
         {
+            await AddBearerToken();
+
             var selectedtItem = await _client.GetItemByIdAsync(id);
             var mappedtItem = _mapper.Map<ItemDetailViewModel>(selectedtItem);
             return mappedtItem;
