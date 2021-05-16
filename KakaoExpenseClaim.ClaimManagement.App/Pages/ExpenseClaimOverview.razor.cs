@@ -1,7 +1,9 @@
-﻿using KakaoExpenseClaim.ClaimManagement.App.Components;
+﻿using KakaoExpenseClaim.ClaimManagement.App.Auth;
+using KakaoExpenseClaim.ClaimManagement.App.Components;
 using KakaoExpenseClaim.ClaimManagement.App.Contracts;
 using KakaoExpenseClaim.ClaimManagement.App.ViewModels;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +19,9 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Pages
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
-        public string SelectedMonth { get; set; } = String.Concat(DateTime.Now.Month).Length > 1 ? String.Concat(DateTime.Now.Month) : "0"+String.Concat(DateTime.Now.Month);
+        [Inject]
+        public AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+        public string SelectedMonth { get; set; } = String.Concat(DateTime.Now.Month).Length > 1 ? String.Concat(DateTime.Now.Month) : "0" + String.Concat(DateTime.Now.Month);
         public string SelectedYear { get; set; } = String.Concat(DateTime.Now.Year);
 
         public List<string> MonthList { get; set; } = new List<string>() { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" };
@@ -32,10 +36,26 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Pages
 
         public ICollection<ExpenseClaimItemsViewModel> ExpenseClaims { get; set; }
         public ICollection<PagedClaimForMonthViewModel> PagedExpenseClaims { get; set; }
-
+        public AuthenticationState authenticationState;
+        private string Username = "Anonymous User";
         protected async override Task OnInitializedAsync()
         {
-            ExpenseClaimsList = await ExpenseClaimDataService.GetExpenseClaimsWithItems(false);
+            authenticationState = await ((CustomAuthenticationStateProvider)AuthenticationStateProvider).GetAuthenticationStateAsync();
+            Username =
+            authenticationState.User.Claims
+            .Where(c => c.Type.Equals("sub"))
+            .Select(c => c.Value)
+            .FirstOrDefault() ?? string.Empty;
+
+            //Requested = 1, Approved = 2, Rejected = 3, Queried = 4, Processing = 5, RejectedByFinance = 7, Finished = 8, Cancel = 9, Saved = 99
+            ExpenseClaimsList = (await ExpenseClaimDataService.GetExpenseClaimsWithItems(false));
+            
+            if (Username[0].Equals('5')) // Approver
+                ExpenseClaimsList = ExpenseClaimsList.Where(x => x.Status == Services.Status.Approved);
+            else if(Username[0].Equals('7')) // Finance Dept
+                ExpenseClaimsList = ExpenseClaimsList.Where(x => x.Status == Services.Status.Processing);
+            else
+                ExpenseClaimsList = ExpenseClaimsList.Where(x => x.RequesterId == int.Parse(Username));
         }
 
         protected async Task GetExpenseClaims()
@@ -49,7 +69,6 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Pages
             StateHasChanged();
         }
 
-
         protected async void OnIncludeHistoryChanged(ChangeEventArgs args)
         {
             if ((bool)args.Value)
@@ -59,7 +78,7 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Pages
             else
             {
                 ExpenseClaims = await ExpenseClaimDataService.GetExpenseClaimsWithItems(false);
-            }    
+            }
         }
 
         public async void PageIndexChanged(int newPageNumber)
