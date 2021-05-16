@@ -51,7 +51,6 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.C
                 var expenseClaim = _mapper.Map<ExpenseClaim>(request);
                 expenseClaim = await _expenseClaimRepository.AddAsync(expenseClaim);
                 createExpenseClaimCommandResponse.ExpenseClaim = _mapper.Map<CreateExpenseClaimDto>(expenseClaim);
-
             }
 
             //Sending email notification to admin address
@@ -66,7 +65,6 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.C
                 //this shouldn't stop the API from doing else so this can be logged
                 _logger.LogError($"Mailing about ExpenseClaim {createExpenseClaimCommandResponse.ExpenseClaim.ExpenseClaimId} failed due to an error with the mail service: {ex.Message}");
             }
-
 
             return createExpenseClaimCommandResponse;
         }

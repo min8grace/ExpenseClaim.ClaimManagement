@@ -4,9 +4,11 @@ using KakaoExpenseClaim.ClaimManagement.App.Contracts;
 using KakaoExpenseClaim.ClaimManagement.App.ViewModels;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace KakaoExpenseClaim.ClaimManagement.App.Pages
@@ -21,6 +23,9 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Pages
 
         [Inject]
         public AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+
+        [Inject]
+        public IJSRuntime JSRuntime { get; set; }
         public string SelectedMonth { get; set; } = String.Concat(DateTime.Now.Month).Length > 1 ? String.Concat(DateTime.Now.Month) : "0" + String.Concat(DateTime.Now.Month);
         public string SelectedYear { get; set; } = String.Concat(DateTime.Now.Year);
 
@@ -67,6 +72,26 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Pages
             ExpenseClaimsList = paginatedList.Items;
 
             StateHasChanged();
+        }
+
+        [Inject]
+        public HttpClient HttpClient { get; set; }
+
+        protected async Task ExportClaims()
+        {
+            if (await JSRuntime.InvokeAsync<bool>("confirm", $"Do you want to export this list to Excel?"))
+            {
+                var response = await HttpClient.GetAsync($"https://localhost:44359/api/ExpenseClaim/export");
+                response.EnsureSuccessStatusCode();
+                var fileBytes = await response.Content.ReadAsByteArrayAsync();
+                var fileName = $"MyReport{DateTime.Now.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)}.csv";
+                await JSRuntime.InvokeAsync<object>("saveAsFile", fileName, Convert.ToBase64String(fileBytes));
+            }
+        }
+
+        protected void AddNewClaim()
+        {
+            NavigationManager.NavigateTo("/expenseclaimdetail");
         }
 
         protected async void OnIncludeHistoryChanged(ChangeEventArgs args)

@@ -20,6 +20,7 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Profiles
             CreateMap<ExpenseClaimViewModel, ExpenseClaimListVm>().ReverseMap();
             CreateMap<ExpenseClaimItemsViewModel, ExpenseClaimItemListVm>().ReverseMap(); 
             CreateMap<ExpenseClaimDetailViewModel, ExpenseClaimDetailVm>().ReverseMap();
+            CreateMap<CreateExpenseClaimCommand, ExpenseClaimDetailViewModel>().ReverseMap();
             CreateMap<CreateExpenseClaimCommand, ExpenseClaimViewModel>().ReverseMap();
             CreateMap<UpdateExpenseClaimCommand, ExpenseClaimDetailViewModel>().ReverseMap();
 

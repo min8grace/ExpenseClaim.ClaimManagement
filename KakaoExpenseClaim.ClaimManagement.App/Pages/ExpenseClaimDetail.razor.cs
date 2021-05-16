@@ -1,8 +1,10 @@
-﻿using KakaoExpenseClaim.ClaimManagement.App.Contracts;
+﻿using KakaoExpenseClaim.ClaimManagement.App.Auth;
+using KakaoExpenseClaim.ClaimManagement.App.Contracts;
 using KakaoExpenseClaim.ClaimManagement.App.Services;
 using KakaoExpenseClaim.ClaimManagement.App.Services.Base;
 using KakaoExpenseClaim.ClaimManagement.App.ViewModels;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,6 +24,9 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Pages
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
+        [Inject]
+        public AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+
         public ExpenseClaimDetailViewModel ExpenseClaimDetailViewModel { get; set; }
             = new ExpenseClaimDetailViewModel() { SubmitDate = DateTime.Now.AddDays(1) };
 
@@ -34,13 +39,20 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Pages
         [Parameter]
         public string ExpenseClaimid { get; set; }
         private int SelectedExpenseClaimId = 0;
-
+        public AuthenticationState authenticationState;
+        private string Username = "Anonymous User";
         protected override async Task OnInitializedAsync()
         {
-            if (int.TryParse(ExpenseClaimid, out SelectedExpenseClaimId))
-            {
-                ExpenseClaimDetailViewModel = await ExpenseClaimDataService.GetExpenseClaimById(SelectedExpenseClaimId);               
-            }
+            authenticationState = await ((CustomAuthenticationStateProvider)AuthenticationStateProvider).GetAuthenticationStateAsync();
+            Username =
+            authenticationState.User.Claims
+            .Where(c => c.Type.Equals("sub"))
+            .Select(c => c.Value)
+            .FirstOrDefault() ?? string.Empty;
+            if (int.TryParse(ExpenseClaimid, out SelectedExpenseClaimId))            
+                ExpenseClaimDetailViewModel = await ExpenseClaimDataService.GetExpenseClaimById(SelectedExpenseClaimId);            
+            else
+                ExpenseClaimDetailViewModel.RequesterId = int.Parse(Username);
         }
 
         protected async Task HandleValidSubmit()

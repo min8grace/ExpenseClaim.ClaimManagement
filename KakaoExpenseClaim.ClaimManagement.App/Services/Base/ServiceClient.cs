@@ -92,12 +92,12 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Services
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<int> AddExpenseClaimAsync(CreateExpenseClaimCommand body);
+        System.Threading.Tasks.Task<CreateExpenseClaimCommandResponse> AddExpenseClaimAsync(CreateExpenseClaimCommand body);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<int> AddExpenseClaimAsync(CreateExpenseClaimCommand body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<CreateExpenseClaimCommandResponse> AddExpenseClaimAsync(CreateExpenseClaimCommand body, System.Threading.CancellationToken cancellationToken);
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -823,7 +823,7 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Services
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<int> AddExpenseClaimAsync(CreateExpenseClaimCommand body)
+        public System.Threading.Tasks.Task<CreateExpenseClaimCommandResponse> AddExpenseClaimAsync(CreateExpenseClaimCommand body)
         {
             return AddExpenseClaimAsync(body, System.Threading.CancellationToken.None);
         }
@@ -831,7 +831,7 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Services
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<int> AddExpenseClaimAsync(CreateExpenseClaimCommand body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<CreateExpenseClaimCommandResponse> AddExpenseClaimAsync(CreateExpenseClaimCommand body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/ExpenseClaim");
@@ -871,7 +871,7 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Services
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<int>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<CreateExpenseClaimCommandResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -1784,6 +1784,51 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Services
     
         [Newtonsoft.Json.JsonProperty("financeComments", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string FinanceComments { get; set; }
+    
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.3.0 (Newtonsoft.Json v12.0.0.0)")]
+    public partial class CreateExpenseClaimCommandResponse 
+    {
+        [Newtonsoft.Json.JsonProperty("success", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool Success { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("message", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Message { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("validationErrors", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<string> ValidationErrors { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("expenseClaim", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public CreateExpenseClaimDto ExpenseClaim { get; set; }
+    
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.3.0 (Newtonsoft.Json v12.0.0.0)")]
+    public partial class CreateExpenseClaimDto 
+    {
+        [Newtonsoft.Json.JsonProperty("expenseClaimId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int ExpenseClaimId { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("title", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Title { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("totalAmount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public double TotalAmount { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public Status Status { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("requesterId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int RequesterId { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("submitDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTime SubmitDate { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("requesterComments", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string RequesterComments { get; set; }
     
     
     }

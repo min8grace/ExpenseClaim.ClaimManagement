@@ -22,7 +22,7 @@ namespace KakaoExpenseClaim.ClaimManagement.App.ViewModels
         [DataType(DataType.Currency)]
         [Column(TypeName = "money")]
         public Decimal TotalAmount { get; set; }
-        public Status Status { get; set; }//  Requested = 1, Approved = 2, Rejected = 3, Queried = 4, Processing = 5, RejectedByFinance = 7, Finished = 8, Cancel = 9, Saved = 99
+        public Status Status { get; set; } = Status.Requested;//  Requested = 1, Approved = 2, Rejected = 3, Queried = 4, Processing = 5, RejectedByFinance = 7, Finished = 8, Cancel = 9, Saved = 99
 
         public int RequesterId { get; set; }
 
@@ -38,16 +38,16 @@ namespace KakaoExpenseClaim.ClaimManagement.App.ViewModels
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime ApprovalDate { get; set; }
-        [Required]
+
         [StringLength(500, ErrorMessage = "The description can't be longer than 500 characters")]
-        public string ApproverComments { get; set; }
+        public string ApproverComments { get; set; } = " ";
 
         public int FinanceId { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime ProcessedDate { get; set; }
-        [Required]
+
         [StringLength(500, ErrorMessage = "The description can't be longer than 500 characters")]
-        public string FinanceComments { get; set; }
+        public string FinanceComments { get; set; } = " ";
     }
 }

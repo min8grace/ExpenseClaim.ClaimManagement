@@ -2,7 +2,11 @@
 @using KakaoExpenseClaim.ClaimManagement.App.Components
 <h3>Expense Claim Overview</h3>
 
-<br />
+<div class="m-2 d-flex justify-content-end">
+    <button @onclick="AddNewClaim" class="mr-1">Add claim</button>
+    <button @onclick="ExportClaims">Export claims</button>
+</div>
+
 
 <div class="row">
     <div class="col-2">
@@ -73,8 +77,8 @@ else
             }
         </tbody>
     </table>
-  
-    
+
+
     <Pager PageIndex="@paginatedList.PageIndex" TotalPages=@paginatedList.TotalPages OnClick="PageIndexChanged"
            HasNextPage=@paginatedList.HasNextPage HasPreviousPage=@paginatedList.HasPreviousPage>
     </Pager>

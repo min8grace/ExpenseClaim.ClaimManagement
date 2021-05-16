@@ -50,10 +50,10 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Services
         public async Task<ApiResponse<int>> CreateExpenseClaim(ExpenseClaimDetailViewModel expenseClaimDetailViewModel)
         {
             try
-            {
+            {                
                 CreateExpenseClaimCommand createExpenseClaimCommand = _mapper.Map<CreateExpenseClaimCommand>(expenseClaimDetailViewModel);
-                var newId = await _client.AddExpenseClaimAsync(createExpenseClaimCommand);
-                return new ApiResponse<int>() { Data = newId, Success = true };
+                var response = await _client.AddExpenseClaimAsync(createExpenseClaimCommand);
+                return new ApiResponse<int>() { Data = response.ExpenseClaim.ExpenseClaimId, Success = true };
             }
             catch (ApiException ex)
             {
