@@ -13,7 +13,7 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Q
         public int ExpenseClaimId { get; set; }
         public string Title { get; set; }
         public Decimal TotalAmount { get; set; }
-        public Status Status { get; set; }
+        //public Status Status { get; set; }
 
         public int RequesterId { get; set; }
         public DateTime SubmitDate { get; set; }

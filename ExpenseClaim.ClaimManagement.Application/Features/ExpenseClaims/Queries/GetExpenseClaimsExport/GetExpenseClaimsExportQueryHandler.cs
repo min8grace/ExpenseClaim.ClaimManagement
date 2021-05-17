@@ -29,7 +29,7 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Features.ExpenseClaims.Q
         {
             var allExpenseClaims = _mapper.Map<List<ExpenseClaimsExportDto>>((await _expenseClaimRepository.ListAllAsync()).OrderBy(x => x.SubmitDate));
 
-            var fileData = _csvExporter.ExportExpenseClaimsToCsv(allExpenseClaims);
+            var fileData = _csvExporter.ExportExpenseClaimsToCsv(allExpenseClaims); 
 
             var ExpenseClaimExportFileDto = new ExpenseClaimsExportFileVm() { ContentType = "text/csv", Data = fileData, ExpenseClaimExportFileName = $"{Guid.NewGuid()}.csv" };
 

@@ -29,7 +29,7 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Profiles
             CreateMap<UpdateExpenseClaimCommand, ExpenseClaim>();            
             CreateMap<ExpenseClaim, ExpenseClaimListVm>();
             CreateMap<ExpenseClaim, ExpenseClaimItemListVm>();
-            CreateMap<ExpenseClaimsExportDto, ExpenseClaim>();
+            CreateMap<ExpenseClaimsExportDto, ExpenseClaim>().ReverseMap(); 
             CreateMap<ExpenseClaim, ExpenseClaimDetailVm>();
             CreateMap<ExpenseClaim, ClaimsForMonthDto>();
 
