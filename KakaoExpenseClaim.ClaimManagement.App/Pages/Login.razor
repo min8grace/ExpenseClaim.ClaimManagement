@@ -15,7 +15,7 @@
                 </div>
                 <div class="input-group row mt-2">
                     <div class="offset-md-4">
-                        <button class="m-2 p-2">Login</button>
+                        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" DisableElevation="true" Color="Color.Tertiary">Login</MudButton>
                     </div>
                 </div>
             </EditForm>
@@ -25,18 +25,16 @@
 
 <span class="label label-error">@Message</span>
 
-<div class="mt-5 row">
-    <div class=" col-12 col-lg-6 mr-auto ml-auto p-3">
-        <p>
-            EmployeeA   - Id: EmployeeA@ABC.com<br />
-            EmployeeB   - Id: EmployeeB@ABC.com<br />
-            EmployeeC   - Id: EmployeeC@ABC.com<br />
-            EmployeeD   - Id: EmployeeD@ABC.com<br />
-            EmployeeE   - Id: EmployeeE@ABC.com<br />
-            Approver    - Id: Approver@ABC.com<br />
-            Finance Dep - Id: FinanceDep@ABC.com<br />
-            <br />
-            Pw: Abcd&01?
-        </p>
-    </div>
+<div class=" col-12 col-lg-6 mr-auto ml-auto p-3">
+    <MudExpansionPanels>
+        <MudExpansionPanel Text="ID / PW" MaxHeight="1000">
+            <h5>            EmployeeA   - Id: EmployeeA@ABC.com</h5>
+            <h5>            EmployeeB   - Id: EmployeeB@ABC.com</h5>
+            <h5>            Approver    - Id: Approver@ABC.com</h5>
+            <h5>            Finance Dept - Id: FinanceDep@ABC.com</h5>
+            <br/>
+            <h5>            #Pw: Abcd&01?</h5>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
 </div>
+

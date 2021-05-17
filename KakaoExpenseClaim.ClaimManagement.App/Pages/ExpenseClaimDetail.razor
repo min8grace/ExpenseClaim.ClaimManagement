@@ -78,11 +78,11 @@
         <InputTextArea id="financeComments" class="form-control col-sm-8" @bind-Value="@ExpenseClaimDetailViewModel.FinanceComments" placeholder="Enter Finance Comments"></InputTextArea>
         <ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => ExpenseClaimDetailViewModel.FinanceComments)" />
     </div>
-    <button type="submit" class="submit-button">Save expenseClaim</button>
+    <button type="submit" class="submit-button">Save expenseClaim </button>
 
 </EditForm>
 
-@if (SelectedExpenseClaimId == 0)
+@if (SelectedExpenseClaimId != 0)
 {
     <p>
         <button @onclick="DeleteExpenseClaim" class="delete-button">Delete ExpenseClaim</button>
@@ -91,6 +91,6 @@
 <br />
 
 <div>
-    <ItemOverview SelectedExpenseClaimId ="SelectedExpenseClaimId"/>
+    <ItemOverview @ref="itemOverview"  SelectedExpenseClaimId="SelectedExpenseClaimId" CreatedExpenseClaimId="CreatedExpenseClaimId"/>
 </div>
 <p class="back-to-catalog mt-3"><img src="img/back-arrow.svg" /><a @onclick="@NavigateToOverview">Back to overview</a></p>

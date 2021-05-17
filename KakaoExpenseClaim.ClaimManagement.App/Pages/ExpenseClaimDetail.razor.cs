@@ -39,6 +39,7 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Pages
         [Parameter]
         public string ExpenseClaimid { get; set; }
         private int SelectedExpenseClaimId = 0;
+        private int CreatedExpenseClaimId = 0;
         public AuthenticationState authenticationState;
         private string Username = "Anonymous User";
         protected override async Task OnInitializedAsync()
@@ -61,7 +62,7 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Pages
 
             if (SelectedExpenseClaimId == 0)
             {
-                response = await ExpenseClaimDataService.CreateExpenseClaim(ExpenseClaimDetailViewModel);
+                response = await ExpenseClaimDataService.CreateExpenseClaim(ExpenseClaimDetailViewModel);               
             }
             else
             {
@@ -82,11 +83,13 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Pages
             NavigationManager.NavigateTo("/expenseclaimoverview");
         }
 
+        private ItemOverview itemOverview;
         private void HandleResponse(ApiResponse<int> response)
-        {
+        {      
             if (response.Success)
             {
-                NavigationManager.NavigateTo("/expenseclaimoverview");
+                CreatedExpenseClaimId = response.Data;
+                itemOverview.CreateItems(response.Data);             
             }
             else
             {

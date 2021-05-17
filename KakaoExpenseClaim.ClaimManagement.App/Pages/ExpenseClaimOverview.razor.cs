@@ -51,16 +51,20 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Pages
             .Where(c => c.Type.Equals("sub"))
             .Select(c => c.Value)
             .FirstOrDefault() ?? string.Empty;
-
+            
             //Requested = 1, Approved = 2, Rejected = 3, Queried = 4, Processing = 5, RejectedByFinance = 7, Finished = 8, Cancel = 9, Saved = 99
             ExpenseClaimsList = (await ExpenseClaimDataService.GetExpenseClaimsWithItems(false));
-            
+
             if (Username[0].Equals('5')) // Approver
                 ExpenseClaimsList = ExpenseClaimsList.Where(x => x.Status == Services.Status.Approved);
-            else if(Username[0].Equals('7')) // Finance Dept
+            else if (Username[0].Equals('7')) // Finance Dept
                 ExpenseClaimsList = ExpenseClaimsList.Where(x => x.Status == Services.Status.Processing);
-            else
+            else if (Username[0].Equals('2')) // employees
                 ExpenseClaimsList = ExpenseClaimsList.Where(x => x.RequesterId == int.Parse(Username));
+            else if (Username[0].Equals('9')) // administrator
+                { }
+            else // others
+                ExpenseClaimsList = null;
         }
 
         protected async Task GetExpenseClaims()

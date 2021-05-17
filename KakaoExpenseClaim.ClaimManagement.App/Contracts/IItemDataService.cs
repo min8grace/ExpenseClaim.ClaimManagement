@@ -11,7 +11,7 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Contracts
     {
         Task<List<ItemViewModel>> GetAllItems(int id);
         Task<ItemDetailViewModel> GetItemById(int id);
-        Task<ApiResponse<int>> CreateItem(ItemDetailViewModel itemDetailViewModel);
+        Task<ApiResponse<int>> CreateItem(ItemViewModel itemDetailViewModel);
         Task<ApiResponse<int>> UpdateItem(ItemDetailViewModel itemClaimDetailViewModel);
         Task<ApiResponse<int>> DeleteItem(int id);
     }

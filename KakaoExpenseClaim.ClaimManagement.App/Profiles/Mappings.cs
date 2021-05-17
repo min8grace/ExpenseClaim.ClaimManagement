@@ -27,6 +27,7 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Profiles
             CreateMap<ItemViewModel, ItemListVm>().ReverseMap();
             CreateMap<ItemDetailViewModel, ItemDetailVm>().ReverseMap();
             CreateMap<CreateItemCommand, ItemDetailViewModel>().ReverseMap();
+            CreateMap<CreateItemCommand, ItemViewModel>().ReverseMap();
             CreateMap<UpdateItemCommand, ItemDetailViewModel>().ReverseMap();
 
             CreateMap<PagedClaimsForMonthVm, PagedClaimForMonthViewModel>().ReverseMap();

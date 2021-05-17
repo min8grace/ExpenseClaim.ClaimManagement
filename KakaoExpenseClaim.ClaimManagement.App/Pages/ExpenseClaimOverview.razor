@@ -3,8 +3,8 @@
 <h3>Expense Claim Overview</h3>
 
 <div class="m-2 d-flex justify-content-end">
-    <button @onclick="AddNewClaim" class="mr-1">Add claim</button>
-    <button @onclick="ExportClaims">Export claims</button>
+    <button @onclick="AddNewClaim" class="event-purchase-button">Add claim</button>
+    <button @onclick="ExportClaims" class="ExpenseClaim-purchase-button">Export claims</button>
 </div>
 
 
@@ -31,14 +31,7 @@
     </div>
     <button @onclick="GetExpenseClaims" class="mt-4">Select</button>
 </div>
-
-
-
-
 <br />
-
-
-
 @if (ExpenseClaimsList == null)
 {
     <p><em>Loading...</em></p>

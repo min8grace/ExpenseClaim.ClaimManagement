@@ -13,8 +13,8 @@ namespace KakaoExpenseClaim.ClaimManagement.Application.Features.Currencies.Comm
         {
             RuleFor(p => p.Date)
                 .NotEmpty().WithMessage("{PropertyName} is required.")
-                .NotNull()
-                .GreaterThan(DateTime.Now);
+                .NotNull();
+                //.GreaterThan(DateTime.Now);
 
             RuleFor(p => p.USDAmount)
                 .NotEmpty().WithMessage("{PropertyName} is required.")

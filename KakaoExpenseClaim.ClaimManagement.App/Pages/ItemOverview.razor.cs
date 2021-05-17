@@ -1,4 +1,5 @@
 ﻿using KakaoExpenseClaim.ClaimManagement.App.Contracts;
+using KakaoExpenseClaim.ClaimManagement.App.Services.Base;
 using KakaoExpenseClaim.ClaimManagement.App.ViewModels;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -27,20 +28,112 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Pages
 
         [Parameter]
         public int SelectedExpenseClaimId { get; set; }
+        [Parameter]
+        public int CreatedExpenseClaimId { get; set; }
 
-        public ICollection<ItemViewModel> Items { get; set; }
+        public List<ItemViewModel> Items { get; set; } = new List<ItemViewModel>();
+
+        public int SelectedCategoryId { get; set; } = 0;
+        public int SelectedCurrencyId { get; set; } = 0;
+
+        public ObservableCollection<CategoryViewModel> Categories { get; set; }
+            = new ObservableCollection<CategoryViewModel>();
+
+        public ObservableCollection<CurrencyViewModel> Currencies { get; set; }
+            = new ObservableCollection<CurrencyViewModel>();
+        public string Message { get; set; }
+        private bool dense = false;
+        private bool hover = true;
+        private bool ronly = false;
+        private string searchString = "";
+        private ItemViewModel selectedItem = null;
+        private HashSet<ItemViewModel> selectedItems = new HashSet<ItemViewModel>();
+        List<CategoryViewModel> listCtgr;
+        List<CurrencyViewModel> listCurr;
         protected async override Task OnInitializedAsync()
-        {
-            //int.TryParse(ExpenseClaimid, out SelectedExpenseClaimId);
-            Items = await ItemDataService.GetAllItems(SelectedExpenseClaimId);
-            var listCtgr = await CategoryDataService.GetAllCategories();
-            var listCurr = await CurrencyDataService.GetAllCurrencies();
+        {            
+            listCtgr = await CategoryDataService.GetAllCategories();
+            listCurr = await CurrencyDataService.GetAllCurrencies();
+            Categories = new ObservableCollection<CategoryViewModel>(listCtgr);
+            Currencies = new ObservableCollection<CurrencyViewModel>(listCurr);
 
-            foreach (var it in Items)
+            if (SelectedExpenseClaimId != 0)
+            {
+                ronly = true;
+                Items = await ItemDataService.GetAllItems(SelectedExpenseClaimId);
+                foreach (var it in Items)
+                {
+                    it.CategoryName = listCtgr.Find(x => x.Id == it.CategoryId).Name;
+                    it.CurrencyName = listCurr.Find(x => x.Id == it.CurrencyId).Name;
+                    if (it.ItemId == 0)
+                    {
+                        it.CategoryName = listCtgr[0].Name;
+                        it.CurrencyName = listCurr[0].Name;
+                    }
+                }
+            }
+        }
+
+        private bool FilterFunc(ItemViewModel element)
+        {
+            if (string.IsNullOrWhiteSpace(searchString))
+                return true;
+            if (element.CategoryName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (element.Description.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if ($"{element.CategoryName} {element.CurrencyName} {element.Description} {element.PayeeId} {element.ItemId}".Contains(searchString))
+                return true;
+            return false;
+        }
+
+        protected async Task AddItem()
+        {
+            ItemViewModel item = new ItemViewModel();
+            item.Date = DateTime.Now;
+            item.CategoryId = listCtgr[0].Id;
+            item.CategoryName = listCtgr[0].Name;
+            item.CurrencyId = listCurr[0].Id;
+            item.CurrencyName = listCurr[0].Name;
+            Items.Add(item);
+        }
+
+        protected async Task DeleteItem(ItemViewModel item)
+        {
+            Items.Remove(item);
+        }
+
+
+        public async Task CreateItems(int createdExpenseClaimId)
+        {
+            ApiResponse<int> response = new ApiResponse<int>();
+            foreach(var itm in Items)
+            {
+                itm.ExpenseClaimId = createdExpenseClaimId;
+                itm.CategoryId = listCtgr.Find(x => x.Name == itm.CategoryName).Id;
+                itm.CurrencyId = listCurr.Find(x => x.Name == itm.CurrencyName).Id;
+                response = await ItemDataService.CreateItem(itm);
+                if (!response.Success) { HandleResponse(response); break; }
+            }            
+            HandleResponse(response);
+        }
+
+        private void HandleResponse(ApiResponse<int> response)
+        {
+            if (response.Success)
             {                
-                it.CategoryName = listCtgr.Find(x => x.Id == it.CategoryId).Name;
-                it.CurrencyName = listCurr.Find(x => x.Id == it.CurrencyId).Name;
-            }           
+                NavigationManager.NavigateTo("/expenseclaimoverview");
+            }
+            else
+            {
+                Message = response.Message;
+                if (!string.IsNullOrEmpty(response.ValidationErrors))
+                    Message += response.ValidationErrors;
+            }
+        }
+        protected void NavigateToOverview()
+        {
+            NavigationManager.NavigateTo("/expenseclaimoverview");
         }
     }
 }

@@ -1,49 +1,107 @@
 ﻿@*@page "/ItemOverview"*@
+@inject HttpClient httpClient
+@inject ISnackbar Snackbar
+@using KakaoExpenseClaim.ClaimManagement.App.ViewModels;
+@using System.Net.Http.Json
 
-<br />
+@Message
 
 @if (Items == null)
 {
-    <p><em>Loading...</em></p>
+    <p><em> No Line Items</em></p>
 }
 else
-{
-    <table>
-        <thead>
-            <tr>
-                @*<th>ItemId         </th>*@
-                <th>Category     </th>
-                <th>PayeeId        </th>
-                <th>Date           </th>
-                <th>Amount         </th>
-                <th>Currency     </th>
-                <th>USDAmount      </th>
-                <th>Description    </th>
-                @*<th>Receipt        </th>*@
-                @*<th>ExpenseClaimId </th>*@
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var itm in Items)
+{  
+    <MudTable Items="@Items" Dense="@dense" Hover="@hover" ReadOnly="@ronly" Filter="new Func<ItemViewModel,bool>(FilterFunc)" @bind-SelectedItem="selectedItem" SortLabel="Sort By" CommitEditTooltip="Commit Edit" OnCommitEditClick="@(() => Snackbar.Add("Commit Edit Handler Invoked"))">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Items</MudText>
+            @if (SelectedExpenseClaimId == 0)
+                {<MudButton Variant="Variant.Text" Size="Size.Small" @onclick="AddItem">+ Add</MudButton> }
+            <MudToolBarSpacer />
+            <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+
+        <ColGroup>
+            <col style="width:200px;" />
+            <col style="width:120px;" />
+            <col style="width:250px;" />
+            <col style="width:100px;" />
+            <col style="width:100px;" />
+            <col style="width:100px;" />
+            <col style="width:500px;" />
+            <col style="width:60px;" />
+        </ColGroup>
+        <HeaderContent>
+            <MudTh><MudTableSortLabel SortBy="new Func<ItemViewModel, object>(x=>x.CategoryName)">Category</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<ItemViewModel, object>(x=>x.PayeeId)">Payee</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ItemViewModel, object>(x=>x.Date)">Date</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ItemViewModel, object>(x=>x.Amount)">Amount</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ItemViewModel, object>(x=>x.CurrencyName)">Currency</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ItemViewModel, object>(x=>x.USDAmount)">$USD</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ItemViewModel, object>(x=>x.Description)">Description</MudTableSortLabel></MudTh>
+            <MudTh></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Category">@context.CategoryName</MudTd>
+            <MudTd DataLabel="PayeeId">@context.PayeeId</MudTd>
+            <MudTd DataLabel="Date">@context.Date</MudTd>
+            <MudTd DataLabel="Amount">@context.Amount</MudTd>
+            <MudTd DataLabel="Currency">@context.CurrencyName</MudTd>
+            <MudTd DataLabel="USD">@context.USDAmount</MudTd>
+            <MudTd DataLabel="Description">@context.Description</MudTd>
+            @if (SelectedExpenseClaimId == 0)
             {
-                <tr>
-                    @*<td class="Item-name">@itm.ItemId        </td>*@
-                    <td class="Item-name">@itm.CategoryName    </td>
-                    <td class="Item-name">@itm.PayeeId       </td>
-                    <td class="Item-name">@itm.Date.ToShortDateString()          </td>
-                    <td class="Item-name">@itm.Amount        </td>
-                    <td class="Item-date">@itm.CurrencyName    </td>
-                    <td class="Item-date">@itm.USDAmount     </td>
-                    <td class="Item-date">@itm.Description   </td>
-                    @*<td class="Item-date">@itm.Receipt       </td>*@
-                    @*<td class="Item-date">@itm.ExpenseClaimId   </td>*@
-                    <td>
-                        <a href="@($"Itemdetails/{itm.ItemId}")" class="Item-purchase-button btn">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                    </td>
-                </tr>
+            <MudTd DataLabel="Delete"><MudIconButton Icon="@Icons.Material.Filled.IndeterminateCheckBox" @onclick="@(x => DeleteItem(context))"></MudIconButton></MudTd>
             }
-        </tbody>
-    </table>
+            else
+            {
+            <MudTd>
+                <a href="@($"Itemdetails/{context.ItemId}")" class="Item-purchase-button btn">
+                    <i class="fas fa-edit"></i>
+                </a>
+            </MudTd>
+            }
+        </RowTemplate>
+        <RowEditingTemplate>
+            <MudTd DataLabel="Category">
+                <MudSelect  @bind-Value="@context.CategoryName">
+                    @foreach (var category in Categories)
+                        {
+                        <MudSelectItem Value="@category.Name">@category.Name</MudSelectItem>
+                        }
+                </MudSelect>
+            </MudTd>
+            <MudTd DataLabel="PayeeId">
+                <MudTextField @bind-Value="@context.PayeeId" Required />
+            </MudTd>
+            <MudTd DataLabel="Date">
+                <MudTextField @bind-Value="@context.Date" Required />
+            </MudTd>
+            <MudTd DataLabel="Amount">
+                <MudTextField @bind-Value="@context.Amount" Required />
+            </MudTd>
+            <MudTd DataLabel="Currency">
+                <MudSelect @bind-Value="@context.CurrencyName">
+                    @foreach (var currency in Currencies)
+                        {
+                        <MudSelectItem Value="@currency.Name"> @currency.Name</MudSelectItem>
+                        }
+                </MudSelect>
+            </MudTd>
+            <MudTd DataLabel="USD">
+                <MudTextField @bind-Value="@context.USDAmount" Required />
+            </MudTd>
+            <MudTd DataLabel="Description">
+                <MudTextField @bind-Value="@context.Description" Required />
+            </MudTd>
+        </RowEditingTemplate>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+    //<MudSwitch @bind-Checked="@hover" Color="Color.Primary">Hover</MudSwitch>
+    //<MudSwitch @bind-Checked="@dense" Color="Color.Secondary">Dense</MudSwitch>
+    //<MudSwitch @bind-Checked="@ronly" Color="Color.Tertiary">Read Only</MudSwitch>
+    //<MudText Inline="true">Selected: @selectedItem?.ItemId</MudText>
+
 }

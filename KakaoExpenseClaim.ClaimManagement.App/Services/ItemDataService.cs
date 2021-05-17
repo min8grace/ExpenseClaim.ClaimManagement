@@ -35,13 +35,14 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Services
             var mappedtItem = _mapper.Map<ItemDetailViewModel>(selectedtItem);
             return mappedtItem;
         }
-        public async Task<ApiResponse<int>> CreateItem(ItemDetailViewModel itemDetailViewModel)
+        public async Task<ApiResponse<int>> CreateItem(ItemViewModel itemDetailViewModel)
         {
             try
-            {
+            { 
+                
                 CreateItemCommand createItemCommand = _mapper.Map<CreateItemCommand>(itemDetailViewModel);
                 var reponse = await _client.AddItemAsync(createItemCommand);
-                return new ApiResponse<int>() { Data = reponse, Success = true };
+                return new ApiResponse<int>() { Data = reponse.Item.ItemId, Success = true };
             }
             catch (ApiException ex)
             {

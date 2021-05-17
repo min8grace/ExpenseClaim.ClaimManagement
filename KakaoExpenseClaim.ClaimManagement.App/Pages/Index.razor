@@ -8,11 +8,11 @@
 
 <AuthorizeView>
     <Authorized>
-        <button @onclick="Logout">Logout</button>
+        <MudButton Variant="Variant.Filled" DisableElevation="true" Color="Color.Tertiary" @onclick="Logout">Logout</MudButton>
     </Authorized>
     <NotAuthorized>
-        <button @onclick="NavigateToLogin">Click here to log in</button>
+        <MudButton Variant="Variant.Filled" DisableElevation="true" Color="Color.Tertiary" @onclick="NavigateToLogin">Click to log in</MudButton>
         <br />
-        <button @onclick="NavigateToRegister">Click here to register</button>
+        <MudButton Variant="Variant.Filled" DisableElevation="true" Color="Color.Tertiary" @onclick="NavigateToRegister">Click to register</MudButton>
     </NotAuthorized>
 </AuthorizeView>

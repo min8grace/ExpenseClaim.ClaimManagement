@@ -39,6 +39,7 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Pages
         [Parameter]
         public string ItemId { get; set; }
         private int SelectedItemId = 0;
+        private int SelectedExpenseClaimId = 0;
 
         protected override async Task OnInitializedAsync()
         {
@@ -51,6 +52,7 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Pages
             if (SelectedItemId > 0)
             {
                 ItemDetailViewModel = await ItemDataService.GetItemById(SelectedItemId);
+                SelectedExpenseClaimId = ItemDetailViewModel.ExpenseClaimId;
                 SelectedCategoryId = ItemDetailViewModel.CategoryId.ToString();
                 SelectedCurrencyId = ItemDetailViewModel.CurrencyId.ToString();
             }
@@ -67,14 +69,8 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Pages
             ItemDetailViewModel.CurrencyId = int.Parse(SelectedCurrencyId);
             ApiResponse<int> response;
 
-            if (SelectedItemId == 0)
-            {
-                response = await ItemDataService.CreateItem(ItemDetailViewModel);
-            }
-            else
-            {
-                response = await ItemDataService.UpdateItem(ItemDetailViewModel);
-            }
+            response = await ItemDataService.UpdateItem(ItemDetailViewModel);
+
             HandleResponse(response);
 
         }
@@ -87,14 +83,19 @@ namespace KakaoExpenseClaim.ClaimManagement.App.Pages
 
         protected void NavigateToOverview()
         {
-            NavigationManager.NavigateTo($"/expenseclaimoverview");
+            if (SelectedExpenseClaimId > 0)
+                NavigationManager.NavigateTo($"/expenseclaimdetail/{SelectedExpenseClaimId}");
+            else
+                NavigationManager.NavigateTo($"/expenseclaimoverview");
         }
-
         private void HandleResponse(ApiResponse<int> response)
         {
             if (response.Success)
             {
-                NavigationManager.NavigateTo($"/expenseclaimoverview");
+                if (SelectedExpenseClaimId > 0)
+                    NavigationManager.NavigateTo($"/expenseclaimdetail/{SelectedExpenseClaimId}");
+                else
+                    NavigationManager.NavigateTo($"/expenseclaimoverview");
             }
             else
             {
